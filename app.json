@@ -1,13 +1,5 @@
 {
   "name": "GovWifi Product Page",
-  "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    },
-    {
-      "url": "heroku/ruby"
-    }
-  ],
   "scripts": {
     "postdeploy": "npm install"
   }
