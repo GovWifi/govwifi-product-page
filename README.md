@@ -6,7 +6,7 @@ This is the product page for GovWifi. It is a [middleman site](http://middlemana
 
 Software required to be installed to get the local version working are:
 
-- ruby (recommended version is `3.2.2`)
+- ruby (recommended version is `3.4.2`)
 - docker
 - npm (installed with nodejs)
 
