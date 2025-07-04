@@ -1,6 +1,6 @@
 # GovWifi Product Page
 
-This is the product page for GovWifi. It is a [middleman site](http://middlemanapp.com/) originally copied from the [product-page-example](https://github.com/alphagov/product-page-example) repo.
+This is the product page for GovWifi. It is a [middleman site](http://middlemanapp.com/) originally copied from the [product-page-example](https://github.com/GovWifi/product-page-example) repo.
 
 ## Getting Setup for Development
 
@@ -12,7 +12,7 @@ Software required to be installed to get the local version working are:
 
 To pull the code from Github, enter the following into your terminal (Applications -> Utilities -> Terminal on Mac):
 
-- `git clone https://github.com/alphagov/govwifi-product-page.git`
+- `git clone https://github.com/GovWifi/govwifi-product-page.git`
 - `cd govwifi-product-page`
 - `gem install bundler`
 - `make build`
