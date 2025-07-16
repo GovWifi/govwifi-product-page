@@ -2,7 +2,6 @@
 # the following line to use 'http://'
 source 'https://rubygems.org'
 
-gem "aws-sdk-s3", "~> 1.182.0"
 gem "rake"
 
 # For faster file watcher updates on Windows:
