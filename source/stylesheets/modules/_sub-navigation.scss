@@ -49,10 +49,10 @@
     }
   }
 
-  &__item--active {
-    @include govuk-font(16, $weight: bold);
-    border-left: 4px solid $govuk-brand-colour;
-    margin-left: -14px;
-    padding-left: 10px;
-  }
+  // &__item--active {
+  //   @include govuk-font(16, $weight: bold);
+  //   border-left: 4px solid $govuk-brand-colour;
+  //   margin-left: -14px;
+  //   padding-left: 10px;
+  // }
 }
