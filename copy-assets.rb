@@ -2,11 +2,12 @@
 
 require 'fileutils'
 
-GOVUK_FRONTEND_PATH = './node_modules/govuk-frontend/dist/govuk'.freeze
+GOVUK_FRONTEND_PATH = './node_modules/govuk-frontend/govuk'.freeze
 OUR_PATH = './source'.freeze
 
 ASSETS_MAP = {
   "#{GOVUK_FRONTEND_PATH}/assets" => '',
+  "#{GOVUK_FRONTEND_PATH}/all.js" => 'javascripts/dist/',
   'node_modules/gaap-analytics/build/gaap-analytics.min.js' => 'javascripts/dist/',
   'node_modules/govwifi-shared-frontend/dist/govwifi-shared-frontend.js' => 'javascripts/dist/'
 }.freeze
