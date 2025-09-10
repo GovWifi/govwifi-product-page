@@ -9,6 +9,8 @@ page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
 
+require_relative "./lib/tasks/fetch_orgs"
+
 activate :directory_indexes
 
 # With alternative layout
@@ -60,3 +62,11 @@ redirect "about-govwifi/connect-to-govwifi.html", to: "/connect-to-govwifi/"
 redirect "help.html", to: "/get-help-connecting/"
 redirect "privacy.html", to: "/privacy-notice/"
 redirect "terms.html", to: "/terms-and-conditions/"
+
+before_build do
+  begin
+    Tasks::FetchOrgs.call
+  rescue => e
+    puts "Failed to fetch organisations from S3: #{e.message}"
+  end
+end
