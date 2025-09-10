@@ -7,6 +7,9 @@ module Tasks
 
       data = URI.open(object_url).read
 
+      # strip the leading '---' if present
+      data = data.sub(/\A---\s*\n/, "")
+
       path = File.expand_path("data/organisations.yml", Dir.pwd)
 
       File.write(path, data)
