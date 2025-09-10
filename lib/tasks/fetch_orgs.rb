@@ -7,7 +7,8 @@ module Tasks
 
       data = URI.open(object_url).read
 
-      path = File.expand_path("data/organisations.yml", __dir__)
+      path = File.expand_path("data/organisations.yml", Dir.pwd)
+
       File.write(path, data)
 
       puts "Wrote organisations.yml to: #{path}"
