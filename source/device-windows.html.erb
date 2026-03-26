@@ -13,7 +13,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
       <main class="govuk-grid-column-two-thirds" role="main" id="main">
         <h1 class="govuk-heading-l">Connect to GovWifi using a Windows device</h1>
 
-        <p class="govuk-body">There are different instructions for <%= link_to "Windows 11", "#connect-windows-11", class: "govuk-link" %>, <%= link_to "Windows 8 and 10", "#connect-windows-8", class: "govuk-link" %>, and <%= link_to "Windows 7", "#connect-windows-7", class: "govuk-link" %>.
+        <p class="govuk-body">There are different instructions for <%= link_to "Windows 11", "#connect-windows-11", class: "govuk-link" %>, <%= link_to "Windows 8 and 10", "#connect-windows-8", class: "govuk-link" %>, and <%= link_to "Windows 7", "#connect-windows-7", class: "govuk-link" %>.</p>
 
         <div class="govuk-inset-text">If you do not know which version of Windows you're using, find out <%= link_to "how to identify your operating system", "https://support.microsoft.com/en-gb/help/13443/windows-which-operating-system", class: "govuk-link" %>.</div>
 
@@ -43,7 +43,8 @@ description: Follow these instructions to connect your Windows device to GovWifi
           <li>
             <p class="govuk-body">Select <strong>OK.</strong></p>
             <p class="govuk-inset-text">
-              If it says <strong>"Can't connect to network"</strong>, <%= link_to "forget the network", "#support-windows-11", class: "govuk-link" %> and try again.</p>
+              If it says <strong>"Can't connect to network"</strong>, <%= link_to "forget the network", "#support-windows-11", class: "govuk-link" %> and try again.
+            </p>
           </li>
           <li>
             <p class="govuk-body">When you see <strong>Continue connecting</strong>, select <strong>Show certificate details.</strong></p>
@@ -64,26 +65,9 @@ description: Follow these instructions to connect your Windows device to GovWifi
 
         <p class="govuk-body">If you're having problems, contact IT support for the building you're in.</p>
 
-        <h3 class="govuk-heading-s" id="forget">Forget the network</h3>
-
-        <p class="govuk-body">If your device says <strong>"Can't connect to network"</strong>, it may be trying to
-          use an incorrect GovWifi username and password. You need to tell it to forget that GovWifi connection and try again.</p>
-
-        <ol class="govuk-list govuk-list--number">
-          <li>
-            <p class="govuk-body">Go to <strong>Settings, Network & internet, WiFi</strong> and select <strong>Manage known networks.</strong></p>
-            <%= image_tag "troubleshooting/windows-11-step-6.jpg", class: "img-fluid", alt: "Screenshot of WiFi Settings on Windows 11" %>
-          </li>
-          <li>
-            <p class="govuk-body">Select <strong>GovWifi.</strong></p>
-          </li>
-          <li>
-            <p class="govuk-body">Select <strong>Forget.</strong></p>
-          </li>
-          <li>
-            <p class="govuk-body">Try to connect again. Make sure you’re entering your username and password exactly as shown in your text or email.</p>
-          </li>
-        </ol>
+        <p class="govuk-inset-text">
+          <%= link_to "Windows 11 & GovWifi Troubleshooting Guide", "device-windows-troubleshoot", class: "govuk-link" %>.
+        </p>
 
         <h2 class="govuk-heading-m" id="connect-windows-8">Windows 8 and 10</h2>
 
@@ -246,8 +230,9 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">To install the certificate from the Command Prompt, go to your start menu, select 'Accessories' and right click on 'Command Prompt'. Choose 'Run as administrator'.</p>
           </li>
           <li>
-            <p class="govuk-body">Copy the text below:<br/>
+            <p class="govuk-body">Copy the text below:<br>
               <code>certutil -addstore -enterprise -f "Root" c:\DigiCertGlobalRootG2.crt</code>
+            </p>
           </li>
           <li>
             <p class="govuk-body">Right click in the Command Prompt window and select 'Paste'. Press return.</p>
