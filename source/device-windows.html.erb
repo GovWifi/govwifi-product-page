@@ -12,13 +12,67 @@ description: Follow these instructions to connect your Windows device to GovWifi
 
       <main class="govuk-grid-column-two-thirds" role="main" id="main">
         <h1 class="govuk-heading-l">Connect to GovWifi using a Windows device</h1>
-        <p class="govuk-body">There are different instructions for Windows 8 and 10, and <%= link_to "Windows 7", "#connect-windows-7", class: "govuk-link" %>.
+
+        <p class="govuk-body">There are different instructions for <%= link_to "Windows 11", "#connect-windows-11", class: "govuk-link" %>, <%= link_to "Windows 8 and 10", "#connect-windows-8", class: "govuk-link" %>, and <%= link_to "Windows 7", "#connect-windows-7", class: "govuk-link" %>.</p>
 
         <div class="govuk-inset-text">If you do not know which version of Windows you're using, find out <%= link_to "how to identify your operating system", "https://support.microsoft.com/en-gb/help/13443/windows-which-operating-system", class: "govuk-link" %>.</div>
+
+        <h2 class="govuk-heading-m" id="connect-windows-11">Windows 11</h2>
+
+        <p class="govuk-body">Once you have a GovWifi <%= link_to "username and password", "connect-to-govwifi", class: "govuk-link" %>, follow the steps below.</p>
+
+        <ol class="govuk-list govuk-list--number">
+          <li>
+            <p class="govuk-body">Select the network icon in the system tray at the bottom right of your screen. A popup dialog will appear where you can select from available wifi networks.</p>
+            <%= image_tag "troubleshooting/windows-11-step-1.jpg", class: "img-fluid", alt: "Screenshot of network dialog in Windows 11" %>
+          </li>
+          <li>
+            <p class="govuk-body">Select <strong>GovWifi.</strong></p>
+            <%= image_tag "troubleshooting/windows-11-step-2.jpg", class: "img-fluid", alt: "Screenshot of WiFi panel in Windows 11" %>
+          </li>
+          <li>
+            <p class="govuk-body">
+              Select <strong>Connect</strong>.
+            </p>
+            <%= image_tag "troubleshooting/windows-11-step-3.jpg", class: "img-fluid", alt: "Screenshot of WiFi connection selection in Windows 11" %>
+          </li>
+          <li>
+            <%= partial 'shared/copy/password_instructions' %>
+            <%= image_tag "troubleshooting/windows-11-step-4.jpg", class: "img-fluid", alt: "Screenshot of Wifi panel with credentials open on Windows 11" %>
+          </li>
+          <li>
+            <p class="govuk-body">Select <strong>OK.</strong></p>
+            <p class="govuk-inset-text">
+              If it says <strong>"Can't connect to network"</strong>, <%= link_to "forget the network", "#support-windows-11", class: "govuk-link" %> and try again.
+            </p>
+          </li>
+          <li>
+            <p class="govuk-body">When you see <strong>Continue connecting</strong>, select <strong>Show certificate details.</strong></p>
+            <%= image_tag "troubleshooting/windows-11-step-5.jpg", class: "img-fluid", alt: "Screenshot of Wifi panel confirmation on Windows 11" %>
+          </li>
+          <li>
+            <p class="govuk-body">Check that the <strong>Server fingerprint or thumbprint</strong> matches:</p>
+            <p class="govuk-body"><strong>1F A7 92 7B 11 04 A4 C5 A6 41 AC 25 32 34 E4 BD BF B3 E0 ED</strong></p>
+          </li>
+          <li>
+            <p class="govuk-body">If it matches, select <strong>Connect</strong>. If it does not match, tell IT support and do not join the network.</p>
+          </li>
+        </ol>
+
+        <p class="govuk-body">You should now be connected to GovWifi.</p>
+
+        <h2 class="govuk-heading-m" id="support-windows-11">Support</h2>
+
+        <p class="govuk-body">If you're having problems, contact IT support for the building you're in.</p>
+
+        <p class="govuk-inset-text">
+          <%= link_to "Windows 11 & GovWifi Troubleshooting Guide", "device-windows-troubleshoot", class: "govuk-link" %>.
+        </p>
 
         <h2 class="govuk-heading-m" id="connect-windows-8">Windows 8 and 10</h2>
 
         <p class="govuk-body">Once you have a GovWifi <%= link_to "username and password", "connect-to-govwifi", class: "govuk-link" %>, follow the steps below.</p>
+
         <ol class="govuk-list govuk-list--number">
           <li>
             <p class="govuk-body">Select the wifi icon in the system tray at the bottom right of your screen. You'll see all the nearby wifi networks.</p>
@@ -54,6 +108,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">If it matches, select <strong>Connect</strong>. If it does not match, tell IT support and do not join the network.</p>
           </li>
         </ol>
+
         <p class="govuk-body">You should now be connected to GovWifi.</p>
 
         <h2 class="govuk-heading-m" id="support-windows-8">Support</h2>
@@ -70,7 +125,6 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">Go to <strong>Settings, WiFi</strong> and select <strong>Manage known networks.</strong></p>
             <%= image_tag "troubleshooting/windows-8-step-1.jpg", class: "img-fluid", alt: "Screenshot of WiFi Settings on Windows 8/10" %>
           </li>
-
           <li>
             <p class="govuk-body">Select <strong>GovWifi.</strong></p>
             <%= image_tag "troubleshooting/windows-8-step-2.jpg", class: "img-fluid", alt: "Screenshot of known networks panel on Windows 8/10" %>
@@ -89,7 +143,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
 
         <ol class="govuk-list govuk-list--number">
           <li>
-            <p class="govuk-body">Open the <strong>Control Panel</strong>, select <strong>Network and Internet</strong> and then <strong>'Network and Sharing Center'.</p>
+            <p class="govuk-body">Open the <strong>Control Panel</strong>, select <strong>Network and Internet</strong> and then <strong>'Network and Sharing Center'</strong>.</p>
           </li>
           <li>
             <p class="govuk-body">Select <strong>Set up a new connection or network</strong>.</p>
@@ -110,7 +164,6 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">Select <strong>Change connection settings.</strong></p>
             <%= image_tag "troubleshooting/windows-7-step-5.jpg", class: "img-fluid", alt: "Screenshot of successfull WiFi addition on Windows 7" %>
           </li>
-
           <li>
             <p class="govuk-body">Select the <strong>Security</strong> tab and select <strong>Settings</strong>.</p>
             <%= image_tag "troubleshooting/windows-7-step-6.jpg", class: "img-fluid", alt: "Screenshot of network properties dialog on Windows 7" %>
@@ -143,7 +196,6 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">Select <strong>User authentication</strong> from the dropdown menu under <strong>Specify authentication mode</strong>, then select <strong>Save credentials</strong>.</p>
             <%= image_tag "troubleshooting/windows-7-step-14.jpg", class: "img-fluid", alt: "Screenshot of Advanced Connection Settings panel on Windows 7" %>
           </li>
-
           <li>
             <%= partial 'shared/copy/password_instructions' %>
             <%= image_tag "troubleshooting/windows-7-step-15.jpg", class: "img-fluid", alt: "Screenshot of Save Credentials dialog on Windows 7" %>
@@ -155,6 +207,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">Select the wifi logo at the bottom right of your screen and select <strong>GovWifi</strong>.</p>
           </li>
         </ol>
+
         <p class="govuk-body">You should now be connected to GovWifi.</p>
 
         <h2 class="govuk-heading-m" id="support-windows-7">Support</h2>
@@ -164,6 +217,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
         <h3 class="govuk-heading-s" id="download-root-certificate">Download the root certificate</h3>
 
         <p class="govuk-body">If you cannot see 'DigiCert Global Root G2' in the Trusted Root Certification Authorities list you might not have the right certificate installed on your device. </p>
+
         <p class="govuk-body">If you manage your own device, you can download it from the web. If you do not, ask your local IT team for help.</p>
 
         <ol class="govuk-list govuk-list--number">
@@ -176,22 +230,21 @@ description: Follow these instructions to connect your Windows device to GovWifi
             <p class="govuk-body">To install the certificate from the Command Prompt, go to your start menu, select 'Accessories' and right click on 'Command Prompt'. Choose 'Run as administrator'.</p>
           </li>
           <li>
-            <p class="govuk-body">Copy the text below:<br/>
+            <p class="govuk-body">Copy the text below:<br>
               <code>certutil -addstore -enterprise -f "Root" c:\DigiCertGlobalRootG2.crt</code>
+            </p>
           </li>
-
           <li>
             <p class="govuk-body">Right click in the Command Prompt window and select 'Paste'. Press return.</p>
           </li>
           <li>
             <p class="govuk-body">Follow the same steps for 'GeoTrust TLS RSA CA G1'. You can download it
-              from <%= link_to "https://www.digicert.com/digicert-root-certificates.htm#intermediates", "https://www.digicert.com/digicert-root-certificates.htm#intermediates" %></p>
+              from <%= link_to "https://www.digicert.com/digicert-root-certificates.htm#intermediates", "https://www.digicert.com/digicert-root-certificates.htm#intermediates", class: "govuk-link" %></p>
           </li>
           <li>
             <p class="govuk-body">Try connecting to GovWifi again. You should now be able to select the right certificate.</p>
           </li>
         </ol>
-
       </main>
     </div>
   </div>

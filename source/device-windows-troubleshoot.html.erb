@@ -1,0 +1,117 @@
+---
+title: Windows 11 & GovWifi Troubleshooting Guide - GovWifi
+description: Follow these instructions to troubleshoot your Windows device with GovWifi
+---
+
+<div class="govuk-width-container">
+  <div class="govuk-main-wrapper">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <%= partial 'shared/product/_sidebar' %>
+      </div>
+
+      <main class="govuk-grid-column-two-thirds" role="main" id="main">
+        <h1 class="govuk-heading-l">Windows 11 & GovWifi Troubleshooting Guide</h1>
+
+        <div class="govuk-inset-text">If you do not know which version of Windows you're using, find out <%= link_to "how to identify your operating system", "https://support.microsoft.com/en-gb/help/13443/windows-which-operating-system", class: "govuk-link" %>.</div>
+
+        <h2 class="govuk-heading-m" id="troubleshooting-general">General troubleshooting</h2>
+
+        <h3 class="govuk-heading-s">Forget the network</h3>
+
+        <p class="govuk-body">If your device says <strong>"Can't connect to network"</strong>, it may be trying to
+          use an incorrect GovWifi username and password. You need to tell it to forget that GovWifi connection and try again.</p>
+
+        <ol class="govuk-list govuk-list--number">
+          <li>
+            <p class="govuk-body">Go to <strong>Settings, Network & internet, WiFi</strong> and select <strong>Manage known networks.</strong></p>
+            <%= image_tag "troubleshooting/windows-11-step-6.jpg", class: "img-fluid", alt: "Screenshot of WiFi Settings on Windows 11" %>
+          </li>
+          <li>
+            <p class="govuk-body">Select <strong>GovWifi.</strong></p>
+          </li>
+          <li>
+            <p class="govuk-body">Select <strong>Forget.</strong></p>
+          </li>
+          <li>
+            <p class="govuk-body">Try to connect again. Make sure you’re entering your username and password exactly as shown in your text or email.</p>
+          </li>
+        </ol>
+
+        <h2 class="govuk-heading-m" id="troubleshooting-credential-guard">Credential Guard</h2>
+
+        <p class="govuk-body govuk-inset-text">
+          Windows 11 introduced several security enhancements that change how Enterprise Wi-Fi (802.1X) functions compared to Windows 10. If you or your users are receiving "Can't connect to this network" errors, follow the steps below.
+        </p>
+
+        <h3 class="govuk-heading-s">The "Ghost Login" Issue (Credential Guard)</h3>
+
+        <p class="govuk-body">
+          <strong>The Problem:</strong>
+          You enter your GovWifi credentials, but Windows 11 immediately says "Can't connect," and no authentication attempt appears in the GovWifi Admin logs.
+        </p>
+
+        <p class="govuk-body">
+          <strong>The Cause:</strong>
+          Windows 11 (version 22H2 and later) enables Windows Defender Credential Guard by default. This security feature blocks "Legacy" authentication protocols like MS-CHAPv2 (which GovWifi uses for username/password login) to prevent credential theft.
+        </p>
+
+        <p class="govuk-body">
+          <strong>The Fix for IT Admins:</strong>
+          To allow GovWifi to function with username/password credentials, you must either:
+        </p>
+
+        <ol class="govuk-list govuk-list--number">
+          <li><strong>Option A (Recommended):</strong>
+            <p>Deploy a Certificate-Based Authentication (CBA) profile via Intune or GPO. This bypasses the need for passwords and is compatible with Credential Guard.</p>
+          </li>
+          <li><strong>Option B:</strong>
+            <p>Disable Credential Guard for specific mobile users (Note: This reduces device security and should be evaluated against the department's risk policy).</p>
+          </li>
+        </ol>
+
+        <h3 class="govuk-heading-s">Updated Manual Setup (UI Drift)</h3>
+
+        <p class="govuk-body">
+          <strong>The Problem:</strong>
+          The Windows 10 "Network and Sharing Center" has changed in Windows 11.
+        </p>
+
+        <p class="govuk-body">
+          <strong>The Fix:</strong>
+        </p>
+
+        <ol class="govuk-list govuk-list--number">
+          <li>Open <strong>Settings > Network & internet > Wi-Fi</strong>.</li>
+          <li>Select <strong>Manage known networks > Add network</strong>.</li>
+          <li><strong>Network name:</strong> GovWifi</li>
+          <li><strong>Security type:</strong> WPA2-Enterprise AES</li>
+          <li><strong>EAP method:</strong> Protected EAP (PEAP)</li>
+          <li><strong>Authentication Method:</strong> Secured password (EAP-MSCHAP v2)</li>
+          <li>Once saved, click the network to enter your <strong>GovWifi Username</strong> and <strong>Password</strong>.</li>
+        </ol>
+
+        <h3 class="govuk-heading-s">"Can't Connect" after Certificate Rotations</h3>
+
+        <p class="govuk-body">
+          <strong>The Problem:</strong>
+          Following a GovWifi maintenance window, Windows 11 devices fail to reconnect.
+        </p>
+
+        <p class="govuk-body">
+          <strong>The Cause:</strong>
+          Windows 11 is stricter regarding Root Certificate Trust. If the device does not explicitly trust the new RADIUS server certificate (e.g., the DigiCert Global Root G2), it will drop the connection without a prompt.
+        </p>
+
+        <p class="govuk-body">
+          <strong>The Fix:</strong>
+        </p>
+
+        <ol class="govuk-list govuk-list--number">
+            <li><strong>Users:</strong> Select "Forget" on the GovWifi network and sign in again. When prompted "Continue connecting?", verify the thumbprint and click <strong>Connect</strong>.</li>
+            <li><strong>Admins:</strong> Ensure your MDM (Intune/MobileIron) has been updated with the latest GovWifi RADIUS server certificates to maintain "Silent" authentication.</li>
+        </ol>
+      </main>
+    </div>
+  </div>
+</div>
