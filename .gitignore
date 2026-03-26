@@ -29,3 +29,7 @@ source/assets
 source/javascripts/dist
 
 .idea/*
+
+.gems
+.envrc
+
