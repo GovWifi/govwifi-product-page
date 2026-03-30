@@ -13,11 +13,13 @@ description: Follow these instructions to troubleshoot your Windows device with 
       <main class="govuk-grid-column-two-thirds" role="main" id="main">
         <h1 class="govuk-heading-l">Windows 11 & GovWifi Troubleshooting Guide</h1>
 
+        <p class="govuk-body"><%= link_to "Connect using a Windows device", "device-windows", class: "govuk-link" %></p>
+
         <div class="govuk-inset-text">If you do not know which version of Windows you're using, find out <%= link_to "how to identify your operating system", "https://support.microsoft.com/en-gb/help/13443/windows-which-operating-system", class: "govuk-link" %>.</div>
 
         <h2 class="govuk-heading-m" id="troubleshooting-general">General troubleshooting</h2>
 
-        <h3 class="govuk-heading-s">Forget the network</h3>
+        <h3 class="govuk-heading-s" id="forget-network">Forget the network</h3>
 
         <p class="govuk-body">If your device says <strong>"Can't connect to network"</strong>, it may be trying to
           use an incorrect GovWifi username and password. You need to tell it to forget that GovWifi connection and try again.</p>
