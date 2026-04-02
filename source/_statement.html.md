@@ -30,7 +30,7 @@ The Equality and Human Rights Commission (EHRC) is responsible for enforcing the
 ## Technical information about this service’s accessibility
 The CDIO is committed to making this service accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
 
-This service is partially compliant with the [Web Content Accessibility Guidelines version 2.1](https://www.w3.org/TR/WCAG21/) AA standard, because of the non-compliances listed below.
+This service is partially compliant with the [Web Content Accessibility Guidelines version 2.2](https://www.w3.org/TR/WCAG22/) AA standard, because of the non-compliances listed below.
 
 ## Non accessible content
 
@@ -73,7 +73,7 @@ We have a separate [accessibility statement for the GovWifi technical documentat
 
 ## What we're doing to improve accessibility
 
-We have recorded and fixed previous issues including those highlighted by the DAC audit to the WCAG 2.1 AA standard.
+We have recorded and fixed previous issues including those highlighted by the DAC audit to the WCAG 2.2 AA standard.
 
 We have plans to recommission an independent audit of our service at a future date.
 
