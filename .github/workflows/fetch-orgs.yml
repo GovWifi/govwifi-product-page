@@ -1,0 +1,56 @@
+name: Fetch an updated list of organisations that use GovWifi from GovWifi-Admin
+
+on:
+  schedule:
+    - cron: "0 10 1 * *" # Runs monthly on day 1 at 10:00 UTC (opens a PR if data changed
+  workflow_dispatch: # Run manually from Actions (opens a PR if data changed, never pushes to master)
+
+permissions: {}
+
+jobs:
+  fetch-orgs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@0cb964fd540e0a24c900370abf38a33466142735 # v1.305.0
+        with:
+          bundler-cache: true
+
+      - name: Run fetch_orgs rake task
+        run: bundle exec rake data:fetch_orgs
+
+      - name: Detect data changes
+        id: changes
+        run: |
+          if git diff --quiet --exit-code -- data/organisations.yml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: No organisation changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "No updates found in data/organisations.yml"
+
+      - name: Create or update pull request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+        with:
+          commit-message: "Update organisations data"
+          branch: chore/update-organisations-data
+          base: master
+          title: "Update organisations data"
+          body: |
+            ## What changed
+            - Ran `bundle exec rake data:fetch_orgs`
+            - Updated `data/organisations.yml` with latest organisation list
