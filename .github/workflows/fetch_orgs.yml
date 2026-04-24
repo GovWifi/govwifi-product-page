@@ -1,0 +1,72 @@
+name: Fetch an updated list of organisations that use GovWifi from GovWifi-Admin
+
+on:
+  schedule:
+    - cron: "0 10 1 * *" # Runs monthly on day 1 at 10:00 UTC
+  workflow_dispatch:
+    inputs:
+      update_mode:
+        description: "How to apply updates"
+        required: true
+        default: pr
+        type: choice
+        options:
+          - pr
+          - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch-orgs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run fetch_orgs rake task
+        run: bundle exec rake data:fetch_orgs
+
+      - name: Detect data changes
+        id: changes
+        run: |
+          if git diff --quiet --exit-code -- data/organisations.yml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: No organisation changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "No updates found in data/organisations.yml"
+
+      - name: Commit and push directly to master
+        if: steps.changes.outputs.changed == 'true' && github.event_name == 'workflow_dispatch' && github.event.inputs.update_mode == 'main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/organisations.yml
+          git commit -m "Update organisations data"
+          git push origin HEAD:master
+
+      - name: Create or update pull request
+        if: steps.changes.outputs.changed == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.update_mode != 'main')
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update organisations data"
+          branch: chore/update-organisations-data
+          base: master
+          title: "Update organisations data"
+          body: |
+            ## What changed
+            - Ran `bundle exec rake data:fetch_orgs`
+            - Updated `data/organisations.yml` with latest organisation list
