@@ -5,25 +5,25 @@ jobs:
     build_product_pages:
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-  
+
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: 'latest'
-  
+
       - name: Install node dependencies
         run: npm install
-    
+
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-  
+
       - name: Install ruby dependencies
         run: bundle install
-  
+
       - name: Build static site
         run: bundle exec middleman build --verbose
