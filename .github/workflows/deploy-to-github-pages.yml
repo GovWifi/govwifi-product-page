@@ -10,18 +10,18 @@ jobs:
   build_product_pages:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Setup node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6.4.0
       with:
         node-version: 'latest'
 
     - name: Install node dependencies
       run: npm install
-  
+
     - name: Setup ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -54,4 +54,4 @@ jobs:
     steps:
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
