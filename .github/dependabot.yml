@@ -29,7 +29,7 @@ updates:
     time: "03:00"
   open-pull-requests-limit: 10
   ignore:
-  # Disable ruby updates as this is hanled by git hub action.
+  # Disable ruby updates as this is handled  by github action.
   - dependency-name: "ruby"
 - package-ecosystem: npm
   directory: "/"
