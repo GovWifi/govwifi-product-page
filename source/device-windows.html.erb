@@ -52,7 +52,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
           </li>
           <li>
             <p class="govuk-body">Check that the <strong>Server fingerprint or thumbprint</strong> matches:</p>
-            <p class="govuk-body"><strong>1F A7 92 7B 11 04 A4 C5 A6 41 AC 25 32 34 E4 BD BF B3 E0 ED</strong></p>
+            <p class="govuk-body"><strong><%= data.fingerprint.current_sha256 %></strong></p>
           </li>
           <li>
             <p class="govuk-body">If it matches, select <strong>Connect</strong>. If it does not match, tell IT support and do not join the network.</p>
@@ -102,7 +102,7 @@ description: Follow these instructions to connect your Windows device to GovWifi
           </li>
           <li>
             <p class="govuk-body">Check that the <strong>Server fingerprint or thumbprint</strong> matches: </p>
-            <p class="govuk-body"><strong>1F A7 92 7B 11 04 A4 C5 A6 41 AC 25 32 34 E4 BD BF B3 E0 ED</strong></p>
+            <p class="govuk-body"><strong><%= data.fingerprint.current_sha256 %></strong></p>
           </li>
           <li>
             <p class="govuk-body">If it matches, select <strong>Connect</strong>. If it does not match, tell IT support and do not join the network.</p>
