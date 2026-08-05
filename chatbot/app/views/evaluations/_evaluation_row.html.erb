@@ -53,5 +53,15 @@
 
   <td class="eval-actions">
     <%= button_to "Run", run_evaluation_path(evaluation), method: :post, class: "eval-btn eval-btn-secondary" %>
+    <% if run %>
+      <div class="eval-feedback" role="group" aria-label="Rate this answer">
+        <%= button_to "Good", feedback_evaluation_run_path(run, feedback: "up"),
+                              method: :patch,
+                              class: (run.feedback_up?   ? "active-up"   : "") %>
+        <%= button_to "Bad",  feedback_evaluation_run_path(run, feedback: "down"),
+                              method: :patch,
+                              class: (run.feedback_down? ? "active-down" : "") %>
+      </div>
+    <% end %>
   </td>
 </tr>

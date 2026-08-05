@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   resources :evaluations, only: [:index, :create] do
     post :run, on: :member
   end
+  resources :evaluation_runs, only: [] do
+    patch :feedback, on: :member
+  end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
