@@ -51,6 +51,9 @@ gem "pdf-reader", "~> 2.13"     # PDF text extraction
 # Rate limiting on the /api/chat endpoint
 gem "rack-attack", "~> 6.7"
 
+# CORS — widget is embedded in product-page which is a different origin
+gem "rack-cors", "~> 2.0"
+
 # Local env in dev/test only
 gem "dotenv-rails", groups: [:development, :test]
 
