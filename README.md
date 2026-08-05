@@ -42,13 +42,13 @@ This is deployed to github pages, via a workflow.  Has been noticed that on occa
 
 ## AI Support Assistant
 
-The GovWifi AI Support Assistant is a companion Rails 8 application at [`chatbot/`](./chatbot). It's a floating chat widget that answers user questions from indexed GovWifi documentation, with source citations.
+The floating chat launcher on this site is provided by the shared **[`govwifi-ai-service`](https://github.com/GovWifi/govwifi-ai-service)** — one Rails 8 API + Postgres/pgvector that any GovWifi app can consume for RAG chat, retrieval, and evaluation.
 
-Full project docs (plan, architecture, ADRs, evaluation harness, GovWifi context) live in [`docs/`](./docs).
+This repo owns only the UI include; no AI logic lives here. See the ai-service's `docs/decisions.md` (ADR-007) for the rationale behind extracting it.
 
 **How the widget is loaded**
 
-`source/layouts/layout.erb` includes one `<script>` tag that loads `widget.js` from the assistant service. It's gated by two environment variables set at Middleman build time:
+`source/layouts/layout.erb` includes one `<script>` tag that loads `widget.js` from the ai-service. It's gated by two environment variables set at Middleman build time:
 
 | Variable | Purpose | Default |
 |---|---|---|
@@ -58,8 +58,8 @@ Full project docs (plan, architecture, ADRs, evaluation harness, GovWifi context
 **Local development against the assistant**
 
 ```bash
-# Run the assistant Rails app (in one terminal)
-cd chatbot && docker compose up
+# Run the assistant (in the sibling govwifi-ai-service repo, in one terminal)
+cd ../govwifi-ai-service && docker compose up
 
 # Then start Middleman with the widget enabled (in another terminal)
 CHATBOT_ENABLED=true \
@@ -69,7 +69,7 @@ make serve
 # Open http://localhost:4567 — the floating "?" launcher should appear
 ```
 
-For the assistant's own README, quickstart, and rake tasks (e.g. `bin/rails ai:index_docs`) see [`chatbot/README.md`](./chatbot/README.md).
+For the assistant's own README, docs, and API surface see the [`govwifi-ai-service`](https://github.com/GovWifi/govwifi-ai-service) repo.
 
 ## Contributing
 
