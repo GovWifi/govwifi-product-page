@@ -40,6 +40,37 @@ $ rspec ./spec/features/
 ## Deploying
 This is deployed to github pages, via a workflow.  Has been noticed that on occasions it can 'stick' on the ```setup node``` step, if this happens, terminate the job and rerun.
 
+## AI Support Assistant
+
+The GovWifi AI Support Assistant is a companion Rails 8 application at [`chatbot/`](./chatbot). It's a floating chat widget that answers user questions from indexed GovWifi documentation, with source citations.
+
+Full project docs (plan, architecture, ADRs, evaluation harness, GovWifi context) live in [`docs/`](./docs).
+
+**How the widget is loaded**
+
+`source/layouts/layout.erb` includes one `<script>` tag that loads `widget.js` from the assistant service. It's gated by two environment variables set at Middleman build time:
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `CHATBOT_ENABLED` | Master switch — `true` includes the script tag | `false` |
+| `CHATBOT_WIDGET_URL` | Location of the widget bundle | `https://assistant.wifi.service.gov.uk/widget.js` |
+
+**Local development against the assistant**
+
+```bash
+# Run the assistant Rails app (in one terminal)
+cd chatbot && docker compose up
+
+# Then start Middleman with the widget enabled (in another terminal)
+CHATBOT_ENABLED=true \
+CHATBOT_WIDGET_URL=http://localhost:3000/widget.js \
+make serve
+
+# Open http://localhost:4567 — the floating "?" launcher should appear
+```
+
+For the assistant's own README, quickstart, and rake tasks (e.g. `bin/rails ai:index_docs`) see [`chatbot/README.md`](./chatbot/README.md).
+
 ## Contributing
 
 The `source` folder contains all the pages that you will want to change, eg: `index.html.erb`. Whenever you save a change, the site will automatically reload so you can see your changes at `http://localhost:4567`.
