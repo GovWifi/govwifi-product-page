@@ -47,15 +47,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M4 — Chat widget UI
 
-- [ ] `feat(widget): floating bottom-right button, Stimulus controller, GOV.UK styling`
-- [ ] `feat(widget): chat panel — message list, input, suggested questions`
-- [ ] `feat(widget): SSE consumption + streaming render + loading indicator`
-- [ ] `feat(widget): citation panel component (deduped, links)`
-- [ ] `feat(widget): copy answer, clear conversation actions`
-- [ ] `feat(widget): accessibility — aria-live, focus trap, keyboard nav, WCAG AA colour contrast`
-- [ ] `feat(widget): responsive mobile layout`
-- [ ] `feat(widget): bundle widget.js + widget.css for external embed`
-- [ ] `test: Capybara feature spec — open, ask, receive answer with citations`
+- [x] `feat(widget): shell, floating button, and panel skeleton` (vanilla JS, no Stimulus — see ai-log 2026-08-05 M4)
+- [x] `feat(widget): SSE consumption, streaming render, form submit, history`
+- [x] `feat(widget): citation panel, copy, clear, suggested questions`
+- [x] `feat(widget): accessibility — focus trap, Escape, ARIA updates` (responsive layout already in CSS)
+- [x] `feat(widget): served from public/widget.js as a single bundle` (CSS inlined; no build step)
+- [x] `test(widget): smoke tests for the demo route and widget.js delivery`
+- [ ] `test(widget): Capybara + headless Chrome feature spec` — deferred until docker-compose has a browser
 - [ ] **Approval gate M4**
 
 ## M5 — Evaluation page

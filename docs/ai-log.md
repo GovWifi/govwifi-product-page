@@ -4,6 +4,52 @@
 
 ---
 
+## 2026-08-05 — M4: Chat widget UI
+
+**Goal:** Ship a floating chat widget that streams answers from `/api/chat`, renders citations, and is accessible on desktop and mobile — as a single embeddable file.
+
+**Files changed**
+- `chatbot/public/widget.js` — the whole widget (shell, CSS, SSE, streaming render, citations, copy, clear, suggestions, focus trap, ARIA, responsive)
+- `chatbot/app/controllers/widget_demo_controller.rb` — dev-only route to render the widget standalone
+- `chatbot/app/views/widget_demo/show.html.erb` — bare HTML page mounting the widget
+- `chatbot/config/routes.rb` — `get "widget_demo"`
+- `chatbot/spec/requests/widget_demo_spec.rb` — smoke tests for the demo route and widget.js delivery
+
+**Summary**
+Five widget commits + one docs commit:
+1. `feat(widget): add shell, floating button, and panel skeleton`
+2. `feat(widget): SSE consumption, streaming render, form submit, history`
+3. `feat(widget): citation panel, copy, clear, suggested questions`
+4. `feat(widget): accessibility polish — focus trap, Escape, ARIA updates`
+5. `test(widget): smoke tests for the demo route and widget.js delivery`
+
+**Problems encountered**
+- **Stimulus vs vanilla.** The task list said "Stimulus controller". Reality: Stimulus expects Rails to render the HTML with `data-controller="..."`, but the widget mounts itself into a *different* origin's DOM (product-page is a static Middleman site). Using Stimulus would force an ES-module build step and mean multiple network fetches for the widget bundle.
+- **CSS collisions.** The widget will live inside product-page which already loads `govuk-frontend`. If we reuse `.govuk-button` etc., we couple our layout to a specific CSS version we don't control.
+- **Real JS-driven UI tests.** Selenium + headless Chrome would give us end-to-end coverage but we don't have a Chrome binary in the current sandbox, and adding one to `Dockerfile.dev` is a heavy prerequisite for M4.
+
+**Solutions**
+- **Vanilla JS in one IIFE at `public/widget.js`.** All class names prefixed `.gwa-`. CSS inlined into the JS as a template literal, injected at boot as a `<style>` tag. Zero build step, one file, one `<script>` include.
+- **Own GOV.UK-matched palette** (green `#00703c`, focus yellow `#ffdd00`, black text). Looks native to product-page but does not depend on `govuk-frontend` being loaded on the host.
+- **API URL derived from the widget's own `<script src>`** — the same file works when served from `assistant.wifi.service.gov.uk` and when served from `/widget.js` locally.
+- **SSE via `fetch()` + `ReadableStream`** rather than `EventSource` (which doesn't support POST). Multi-line `data:` accumulation handled.
+- **Client-side history array.** Sent with each request; no server-side persistence (matches plan.md non-goals).
+- **`aria-modal` toggled on open/close** (inline dialog pattern), focus trap on Tab/Shift+Tab, Escape closes, previously-focused element restored on close. Matches WAI-ARIA APG "Modal Dialog Example".
+- **Smoke tests, not full UI tests, for now.** `GET /widget_demo` returns HTML with the script tag; production returns 404; `GET /widget.js` returns the bundle containing the expected identifiers. Real Capybara + headless Chrome tests are deferred — logged in tasks.md.
+
+**Technical decisions**
+- Single-file widget, no build step, no framework.
+- Inline CSS in JS, not a separate `widget.css`, so the embed contract is one line.
+- `role="log"` + `aria-live="polite"` on the messages container so streaming answers announce naturally.
+- `aria-busy` set to `"true"` during a request to pause screen-reader announcements while the answer is still forming.
+- Citations render *after* the streamed answer, deduplicated by (source_type, path), formatted as `source_type/relative_path` per the requirements' example.
+
+**Next steps**
+- Await M4 approval.
+- Start M5: evaluation harness (Evaluation model, /evaluate page, EvaluationRunJob, rake ai:evaluate, seed set from `docs/evaluation.md`).
+
+---
+
 ## 2026-08-05 — M3: Retrieval + Answering API
 
 **Goal:** Wire retrieval + prompt construction + LLM call into a `POST /api/chat` endpoint that supports both JSON and SSE, with per-IP rate limiting.

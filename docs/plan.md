@@ -130,8 +130,8 @@ See [architecture.md](./architecture.md) for the full picture.
 |---|---|---|
 | M1 | Scaffold Rails 8 app at `./chatbot` | ✅ approved |
 | M2 | Ingestion pipeline (`rake ai:index_docs`) | ✅ approved |
-| M3 | Retrieval + Answering API | 🟡 awaiting approval |
-| M4 | Chat widget UI | ⏳ |
+| M3 | Retrieval + Answering API | ✅ approved |
+| M4 | Chat widget UI | 🟡 awaiting approval |
 | M5 | Evaluation page | ⏳ |
 | M6 | Wire widget into product-page layout | ⏳ |
 
@@ -142,8 +142,9 @@ See [architecture.md](./architecture.md) for the full picture.
 - ✅ M0 — Docs scaffolded
 - ✅ M1 — Rails 8 sidecar app at `./chatbot`
 - ✅ M2 — Ingestion pipeline (loaders, chunker, embedder, pipeline, jobs, `rake ai:index_docs`)
-- ✅ **M3 code landed — awaiting approval**: Retriever (pgvector cosine + source_type ranking), PromptBuilder (strict system prompt + injection defence), AnswerService (JSON + streaming events), POST /api/chat with both JSON and SSE branches, rack-cors, rack-attack rate limiting, RSpec coverage across the stack.
+- ✅ M3 — Retrieval + Answering API (Retriever, Ranker, PromptBuilder, AnswerService, /api/chat with JSON + SSE, rate limiting)
+- ✅ **M4 code landed — awaiting approval**: floating widget in `public/widget.js` with GOV.UK-styled shell, SSE streaming render, citation panel, copy/clear/suggested questions, focus trap, ARIA polish, responsive mobile layout. Dev-only `/widget_demo` page for manual testing.
 
 ## Next milestone
 
-**M4 — Chat widget UI** — begins after M3 approval. See `tasks.md` for the per-commit breakdown.
+**M5 — Evaluation page** — begins after M4 approval. See `tasks.md` for the per-commit breakdown.
