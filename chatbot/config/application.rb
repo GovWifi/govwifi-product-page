@@ -38,5 +38,9 @@ module App
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Sidekiq is the queue backend in dev + prod; the :test adapter
+    # is used automatically by rspec-rails in the test env.
+    config.active_job.queue_adapter = :sidekiq unless Rails.env.test?
   end
 end
