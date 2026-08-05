@@ -42,5 +42,8 @@ module App
     # Sidekiq is the queue backend in dev + prod; the :test adapter
     # is used automatically by rspec-rails in the test env.
     config.active_job.queue_adapter = :sidekiq unless Rails.env.test?
+
+    # Rack::Attack for per-IP rate limiting on /api/chat.
+    config.middleware.use Rack::Attack
   end
 end
