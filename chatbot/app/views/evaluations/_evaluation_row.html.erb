@@ -1,0 +1,57 @@
+<% run = evaluation.latest_run %>
+<tr class="eval-row">
+  <td class="eval-status">
+    <% case evaluation.summary_status
+       when :not_run          %><span class="eval-badge eval-badge-idle">Not run</span>
+    <% when :awaiting_rating  %><span class="eval-badge eval-badge-pending">Pending rating</span>
+    <% when :up               %><span class="eval-badge eval-badge-up">Good</span>
+    <% when :down             %><span class="eval-badge eval-badge-down">Bad</span>
+    <% end %>
+  </td>
+
+  <td class="eval-question">
+    <p class="eval-q"><%= evaluation.question %></p>
+    <% if evaluation.expected_sources.present? %>
+      <details class="eval-details">
+        <summary>Expected sources</summary>
+        <ul>
+          <% evaluation.expected_sources.each do |src| %>
+            <li><code><%= src %></code></li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+    <% if evaluation.expected_answer.present? %>
+      <details class="eval-details">
+        <summary>Expected answer</summary>
+        <p><%= evaluation.expected_answer %></p>
+      </details>
+    <% end %>
+  </td>
+
+  <td class="eval-answer">
+    <% if run %>
+      <p class="eval-a"><%= truncate(run.actual_answer.to_s, length: 400) %></p>
+    <% else %>
+      <em class="eval-idle">— not run —</em>
+    <% end %>
+  </td>
+
+  <td class="eval-citations">
+    <% if run && run.citations.present? %>
+      <ul>
+        <% run.citation_paths.each do |path| %>
+          <li><code><%= path %></code></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </td>
+
+  <td class="eval-latency">
+    <%= run&.latency_ms ? "#{run.latency_ms} ms" : "" %>
+  </td>
+
+  <td class="eval-actions">
+    <%= button_to "Run", run_evaluation_path(evaluation), method: :post, class: "eval-btn eval-btn-secondary" %>
+  </td>
+</tr>

@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   # Dev-only widget preview (returns 404 in production)
   get "widget_demo" => "widget_demo#show"
 
+  # Evaluation harness — see docs/evaluation.md
+  resources :evaluations, only: [:index, :create] do
+    post :run, on: :member
+  end
+
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
