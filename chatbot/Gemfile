@@ -35,6 +35,29 @@ gem "image_processing", "~> 1.2"
 # Vector similarity search via pgvector [https://github.com/ankane/neighbor]
 gem "neighbor", "~> 0.5"
 
+# LLM providers — abstracted behind Services::Llm::Client (ADR-002)
+gem "anthropic", "~> 1.0"      # Default provider
+gem "ruby-openai", "~> 7.0"    # Fallback provider, also for embeddings
+
+# Background jobs
+gem "sidekiq", "~> 7.3"
+gem "redis", "~> 5.3"
+
+# HTTP client used by ingestion loaders
+gem "faraday", "~> 2.9"
+gem "faraday-retry", "~> 2.2"
+
+# Content parsing
+gem "nokogiri", "~> 1.16"       # HTML/XML parsing
+gem "commonmarker", "~> 1.1"    # Markdown -> HTML
+gem "pdf-reader", "~> 2.13"     # PDF text extraction
+
+# Rate limiting on the /api/chat endpoint
+gem "rack-attack", "~> 6.7"
+
+# Local env in dev/test only
+gem "dotenv-rails", groups: [:development, :test]
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -47,6 +70,13 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Testing stack
+  gem "rspec-rails", "~> 7.1"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "faker", "~> 3.4"
+  gem "webmock", "~> 3.24"
+  gem "vcr", "~> 6.3"
 end
 
 group :development do
