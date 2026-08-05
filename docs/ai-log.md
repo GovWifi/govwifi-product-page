@@ -4,6 +4,59 @@
 
 ---
 
+## 2026-08-05 — M2: Ingestion pipeline
+
+**Goal:** Land the full local-repo → chunks → embeddings → pgvector pipeline as a re-runnable `bin/rails ai:index_docs` task, with idempotency and full RSpec coverage.
+
+**Files changed**
+- `chatbot/.rspec`, `chatbot/spec/{spec_helper,rails_helper}.rb`, `chatbot/spec/support/{webmock,vcr}.rb`
+- Migrations: `20260805000002_enable_pgcrypto.rb`, `20260805000003_create_documents.rb`, `20260805000004_create_chunks.rb`
+- Models: `app/models/{document,chunk}.rb`
+- LLM: `app/services/llm/{client,anthropic_adapter,open_ai_adapter}.rb`, `config/initializers/llm.rb`
+- Loaders: `app/services/ingest/{loaded_document,loaders}.rb` + `loaders/{erb_stripper,front_matter,markdown_loader,html_loader,html_erb_loader,md_erb_loader,pdf_loader,txt_loader}.rb`
+- Sources + chunker: `app/services/ingest/{sources/local_repo,chunker}.rb`, `config/ai_sources.yml`
+- Pipeline: `app/services/ingest/{embedder,pipeline}.rb`
+- Jobs: `app/jobs/{index_document_job,reindex_all_job}.rb`
+- Rake: `lib/tasks/ai.rake` (ai:index_docs, ai:dry_run)
+- Config: `config/application.rb` (queue_adapter :sidekiq outside test)
+- ADR: `docs/decisions.md` (ADR-006)
+- Specs across the tree
+
+**Summary**
+Seven feature/test commits + one ADR + one docs-update commit:
+1. `docs: add ADR-006 splitting chat and embedding provider concerns`
+2. `test(chatbot): add RSpec, FactoryBot, WebMock, VCR bootstrap`
+3. `feat(chatbot): add Document + Chunk models with pgvector storage`
+4. `feat(chatbot): add LlmClient abstraction with Anthropic + OpenAI adapters`
+5. `feat(chatbot): add ingest loaders for md, html.erb, html.md.erb, html, pdf, txt`
+6. `feat(chatbot): add Sources::LocalRepo + Chunker`
+7. `feat(chatbot): add Embedder, Pipeline, jobs, and ai:index_docs rake task`
+
+**Problems encountered**
+- Anthropic doesn't have a first-party embedding endpoint — coupling chat + embed providers would force us into Voyage or force a re-embed on every LLM swap.
+- Uncertainty over whether the `anthropic` gem name (and its API surface) would resolve cleanly on rubygems; would have blocked `bundle install` at first build.
+- Chunker with heading awareness had a subtle bug on the initial regex — needed to handle "text before the first heading" as a section with an empty heading chain.
+
+**Solutions**
+- **ADR-006**: split chat/embed provider config. Default chat = Anthropic, default embed = OpenAI (1536-dim vector column).
+- Removed both `anthropic` and `ruby-openai` gems; wrote Faraday-based adapters directly. Cleaner, no SDK drift, consistent style across providers.
+- Chunker `split_by_headings` explicitly appends a trailing section for the pre-heading buffer, then handles the mid-file heading transitions.
+
+**Technical decisions**
+- Faraday-only LLM adapters (no SDK gems): stable API, streaming implemented via `req.options.on_data` on both providers.
+- Idempotency via `raw_content_hash` on Document — hash the raw file bytes (not the loaded/stripped text), so ERB whitespace edits still trigger re-embedding when a reviewer expects them to.
+- HTML loader strips `script`, `style`, `nav`, `footer`, `aside`, `.govuk-cookie-banner` and prefers `<main>`/`#content`/`<article>` over `<body>` — no separate Normalizer service needed.
+- Chunker returns `Data`-defined `ChunkAttrs` PORO (not AR objects) — keeps the chunker decoupled from persistence for easier unit testing.
+- `rake ai:index_docs` runs sync by default (dev-friendly, no Sidekiq needed for a first run); `ASYNC=1` fans out to Sidekiq.
+- No PII in log lines from `IndexDocumentJob` — logs source_type/relative_path and chunk count only, matching the docs/context.md security bar.
+
+**Next steps**
+- Await M2 approval.
+- Do a first real run of `rake ai:index_docs` against product-page (requires `OPENAI_API_KEY`) to validate the end-to-end flow before starting M3.
+- On approval, start M3: Retriever + Ranker + PromptBuilder + `POST /api/chat`.
+
+---
+
 ## 2026-08-05 — M1: Rails 8 sidecar scaffold
 
 **Goal:** Land the empty-but-runnable Rails 8 app at `./chatbot`, wired for Postgres + pgvector, Sidekiq, and the LLM SDKs, orchestrated by docker-compose.

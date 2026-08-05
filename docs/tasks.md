@@ -25,17 +25,14 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M2 — Ingestion pipeline
 
-- [ ] `feat(ingest): Document + Chunk ActiveRecord models with pgvector`
-- [ ] `feat(ingest): Sources::LocalRepo with config/ai_sources.yml`
-- [ ] `feat(ingest): MarkdownLoader, ErbLoader, HtmlLoader, PdfLoader, TxtLoader`
-- [ ] `feat(ingest): Normalizer (strip nav/footer, resolve heading chain)`
-- [ ] `feat(ingest): Chunker (recursive, heading-aware, ~800 tokens / 100 overlap)`
-- [ ] `feat(llm): LlmClient abstraction + Anthropic adapter + OpenAI adapter`
-- [ ] `feat(ingest): Embedder service (batched, retries)`
-- [ ] `feat(ingest): IndexDocumentJob + ReindexAllJob`
-- [ ] `feat(rake): ai:index_docs task, idempotent by content_hash`
-- [ ] `test: RSpec — loaders, chunker, ingest pipeline`
-- [ ] Run against product-page; verify Documents + Chunks populated
+- [x] `test(chatbot): RSpec / FactoryBot / WebMock / VCR bootstrap`
+- [x] `feat(chatbot): Document + Chunk models with pgvector storage`
+- [x] `feat(chatbot): LlmClient abstraction with Anthropic + OpenAI adapters` (+ ADR-006)
+- [x] `feat(chatbot): loaders for md, html.erb, html.md.erb, html, pdf, txt` + dispatcher
+- [x] `feat(chatbot): Sources::LocalRepo + Chunker` (nav/footer stripping handled inside HtmlLoader — no separate Normalizer needed)
+- [x] `feat(chatbot): Embedder, Pipeline, jobs, ai:index_docs rake task`
+- [x] `test: RSpec coverage — loaders, chunker, pipeline (idempotency), embedder, job`
+- [ ] **First real run against product-page** (needs OPENAI_API_KEY; run manually)
 - [ ] **Approval gate M2**
 
 ## M3 — Retrieval + Answering API

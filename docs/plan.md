@@ -128,8 +128,8 @@ See [architecture.md](./architecture.md) for the full picture.
 
 | ID | Name | Approval gate |
 |---|---|---|
-| M1 | Scaffold Rails 8 app at `./chatbot` | 🟡 awaiting approval |
-| M2 | Ingestion pipeline (`rake ai:index_docs`) | ⏳ |
+| M1 | Scaffold Rails 8 app at `./chatbot` | ✅ approved |
+| M2 | Ingestion pipeline (`rake ai:index_docs`) | 🟡 awaiting approval |
 | M3 | Retrieval + Answering API | ⏳ |
 | M4 | Chat widget UI | ⏳ |
 | M5 | Evaluation page | ⏳ |
@@ -138,10 +138,11 @@ See [architecture.md](./architecture.md) for the full picture.
 ## Current progress
 
 - ✅ Repository audit complete
-- ✅ Architecture decisions locked in (see decisions.md)
-- ✅ Docs scaffolded (M0)
-- ✅ **M1 code landed — awaiting approval**: Rails 8 app scaffold with pgvector, LLM SDKs, Sidekiq, RSpec, docker-compose
+- ✅ Architecture decisions locked in (six ADRs — see decisions.md)
+- ✅ M0 — Docs scaffolded
+- ✅ M1 — Rails 8 sidecar app at `./chatbot`
+- ✅ **M2 code landed — awaiting approval**: Document/Chunk models, LlmClient abstraction (Faraday-based), file loaders (md/html.erb/html.md.erb/html/pdf/txt), Sources::LocalRepo, heading-aware Chunker, Embedder, Pipeline (idempotent), IndexDocumentJob/ReindexAllJob, `rake ai:index_docs`, RSpec coverage across the stack.
 
 ## Next milestone
 
-**M2 — Ingestion pipeline (`rake ai:index_docs`)** — begins after M1 approval. See `tasks.md` for the per-commit breakdown.
+**M3 — Retrieval + Answering API** — begins after M2 approval and a successful real-run of `rake ai:index_docs` against product-page. See `tasks.md` for the per-commit breakdown.
