@@ -15,8 +15,10 @@
     <%= javascript_include_tag "dist/govwifi-shared-frontend" %>
     <%= javascript_include_tag :application %>
     <% if ENV.fetch("CHATBOT_ENABLED", "false") == "true" %>
-      <!-- GovWifi AI Support Assistant — see govwifi-product-page/chatbot/ -->
-      <script src="<%= ENV.fetch("CHATBOT_WIDGET_URL", "https://assistant.wifi.service.gov.uk/widget.js") %>" defer></script>
+      <!-- GovWifi AI Support Assistant — served by govwifi-ai-service -->
+      <script src="<%= ENV.fetch("CHATBOT_WIDGET_URL", "https://assistant.wifi.service.gov.uk/widget.js") %>"
+              data-consumer="product-page"
+              defer></script>
     <% end %>
     <!-- verification code for Google Search Console -->
     <meta name="google-site-verification" content="lgwTmoP7_cxm8W8Tp3n8aeUdcmJ3tKNpHxPiUtTCjWk" />
