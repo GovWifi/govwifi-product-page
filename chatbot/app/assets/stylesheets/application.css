@@ -1,10 +1,112 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * GOV.UK-inspired minimal styling for internal Rails views
+ * (currently just the /evaluations page). Kept separate from the
+ * widget CSS which lives inside public/widget.js.
  */
+
+body {
+  font-family: "GDS Transport", Arial, Helvetica, sans-serif;
+  color: #0b0c0c;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  background: #ffffff;
+}
+
+.eval-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.eval-header h1 {
+  font-size: 32px;
+  border-bottom: 4px solid #0b0c0c;
+  padding-bottom: 8px;
+  margin: 0 0 8px 0;
+}
+.eval-lead { color: #505a5f; max-width: 720px; }
+
+.eval-notice {
+  background: #d1e6ce;
+  border-left: 6px solid #00703c;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-weight: 700;
+}
+.eval-error {
+  background: #fef7f7;
+  border: 2px solid #d4351c;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+
+.eval-add { margin: 32px 0; }
+.eval-add h2 { font-size: 22px; margin-bottom: 12px; }
+
+.eval-form { max-width: 720px; }
+.eval-field { margin-bottom: 12px; }
+.eval-field label {
+  display: block; font-weight: 700; margin-bottom: 4px;
+}
+.eval-field input[type=text],
+.eval-field textarea {
+  width: 100%; box-sizing: border-box;
+  padding: 8px 12px; font-family: inherit; font-size: 16px;
+  border: 2px solid #0b0c0c;
+}
+.eval-field input:focus, .eval-field textarea:focus {
+  outline: 3px solid #ffdd00; outline-offset: 0;
+}
+
+.eval-btn {
+  border: 2px solid #002d18;
+  padding: 8px 16px; font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+}
+.eval-btn:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
+.eval-btn-primary   { background: #00703c; color: #ffffff; }
+.eval-btn-primary:hover { background: #005a30; }
+.eval-btn-secondary { background: #f3f2f1; color: #0b0c0c; }
+
+.eval-list h2 { font-size: 22px; margin: 32px 0 12px 0; }
+.eval-empty { color: #505a5f; font-style: italic; }
+
+.eval-table {
+  width: 100%; border-collapse: collapse;
+  border-top: 4px solid #0b0c0c; margin-top: 12px;
+}
+.eval-table th, .eval-table td {
+  text-align: left; vertical-align: top;
+  padding: 12px 8px; border-bottom: 1px solid #b1b4b6;
+  font-size: 14px;
+}
+.eval-table th { background: #f3f2f1; }
+.eval-q { margin: 0 0 8px 0; font-weight: 700; }
+.eval-a { margin: 0; }
+.eval-details { margin-top: 6px; font-size: 12px; color: #505a5f; }
+.eval-details summary { cursor: pointer; }
+
+.eval-badge {
+  display: inline-block; padding: 2px 8px; font-size: 12px;
+  border: 1px solid; font-weight: 700; text-transform: uppercase;
+}
+.eval-badge-idle    { color: #505a5f; border-color: #b1b4b6; background: #f3f2f1; }
+.eval-badge-pending { color: #d4351c; border-color: #d4351c; background: #fef7f7; }
+.eval-badge-up      { color: #ffffff; border-color: #00703c; background: #00703c; }
+.eval-badge-down    { color: #ffffff; border-color: #d4351c; background: #d4351c; }
+
+.eval-citations ul { margin: 0; padding-left: 18px; }
+.eval-citations code { font-size: 12px; }
+.eval-idle { color: #b1b4b6; }
+
+.eval-feedback {
+  display: flex; gap: 8px; margin-top: 8px; font-size: 12px;
+}
+.eval-feedback button {
+  background: #ffffff; border: 1px solid #b1b4b6;
+  padding: 2px 10px; cursor: pointer; font-family: inherit;
+}
+.eval-feedback button:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
+.eval-feedback .active-up   { background: #00703c; color: #ffffff; border-color: #002d18; }
+.eval-feedback .active-down { background: #d4351c; color: #ffffff; border-color: #6f1912; }
