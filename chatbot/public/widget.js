@@ -300,10 +300,44 @@
     const sendBtn  = root.querySelector(".gwa-send");
     const messages = root.querySelector(".gwa-messages");
 
-    const state = { history: [], busy: false };
+    const state = { history: [], busy: false, previouslyFocused: null };
 
-    function open()  { panel.hidden = false; launcher.setAttribute("aria-expanded", "true"); input.focus(); }
-    function close() { panel.hidden = true;  launcher.setAttribute("aria-expanded", "false"); launcher.focus(); }
+    function open() {
+      state.previouslyFocused = document.activeElement;
+      panel.hidden = false;
+      panel.setAttribute("aria-modal", "true");
+      launcher.setAttribute("aria-expanded", "true");
+      document.addEventListener("keydown", handleKeydown);
+      input.focus();
+    }
+
+    function close() {
+      panel.hidden = true;
+      panel.setAttribute("aria-modal", "false");
+      launcher.setAttribute("aria-expanded", "false");
+      document.removeEventListener("keydown", handleKeydown);
+      (state.previouslyFocused || launcher).focus();
+    }
+
+    function handleKeydown(e) {
+      if (panel.hidden) return;
+      if (e.key === "Escape") { e.preventDefault(); close(); return; }
+      if (e.key === "Tab")    trapFocus(e);
+    }
+
+    function trapFocus(e) {
+      const focusables = panel.querySelectorAll(
+        "a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"
+      );
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+    }
 
     function clear() {
       state.history = [];
@@ -343,6 +377,7 @@
       if (state.busy) return;
       state.busy = true;
       sendBtn.disabled = true;
+      messages.setAttribute("aria-busy", "true");
 
       const suggestions = messages.querySelector(".gwa-suggestions");
       if (suggestions) suggestions.remove();
@@ -381,6 +416,7 @@
         onEnd: () => {
           state.busy = false;
           sendBtn.disabled = false;
+          messages.setAttribute("aria-busy", "false");
           input.focus();
         }
       }).catch((err) => {
@@ -388,6 +424,7 @@
         appendError(messages, "Sorry, the connection dropped. Please try again.");
         state.busy = false;
         sendBtn.disabled = false;
+        messages.setAttribute("aria-busy", "false");
       });
     }
 
