@@ -133,7 +133,7 @@ See [architecture.md](./architecture.md) for the full picture.
 | M3 | Retrieval + Answering API | ✅ approved |
 | M4 | Chat widget UI | ✅ approved |
 | M5 | Evaluation page | ✅ approved |
-| M6 | Wire widget into product-page layout | 🟡 awaiting approval |
+| M6 | Wire widget into product-page layout | ✅ approved — Phase 1 MVP complete |
 
 ## Current progress
 
@@ -145,8 +145,12 @@ See [architecture.md](./architecture.md) for the full picture.
 - ✅ M3 — Retrieval + Answering API
 - ✅ M4 — Chat widget UI
 - ✅ M5 — Evaluation harness
-- ✅ **M6 code landed — awaiting approval**: single `<script>` include added to `source/layouts/layout.erb`, feature-flagged via `CHATBOT_ENABLED` / `CHATBOT_WIDGET_URL`. Product-page README updated with a "AI Support Assistant" section.
+- ✅ M6 — Product-page widget include (feature-flagged)
+- 🎉 **Phase 1 MVP complete (2026-08-05).**
 
 ## Next milestone
 
-**Phase 1 MVP complete after M6 approval.** Post-MVP: Phase 2 (index tech-docs and dev-docs — zero architecture change), Phase 3 (Zendesk ingestion), and stretch features per plan.md.
+Post-MVP:
+- **Phase 2** — index tech-docs and dev-docs. Zero architecture change: uncomment the source entries in `chatbot/config/ai_sources.yml` and re-run `bin/rails ai:index_docs`.
+- **Phase 3** — Zendesk ticket export ingestion. New `Sources::ZendeskExport` loader; retrieval ranking already accounts for zendesk source_type at 0.85×.
+- **Stretch** — thumbs-up-based learning, Slack integration, SSO auth, analytics + token dashboard, admin portal (see "Stretch features" in this file).

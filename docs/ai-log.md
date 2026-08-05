@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-08-05 — Phase 1 MVP complete
+
+M6 approved. Six milestones, 37 commits on the `chatbot` branch of govwifi-product-page, six ADRs, eight living docs.
+
+Post-approval, ready to push. No further code work is scheduled — next actions are the user's local run, real indexing, real evaluation, and PR opening.
+
+Everything below this entry is the milestone-by-milestone development history.
+
+---
+
 ## 2026-08-05 — M6: Wire widget into product-page layout
 
 **Goal:** Add the one line to `source/layouts/layout.erb` that pulls the assistant widget onto every product-page page, without changing anything else in the static site.
