@@ -4,6 +4,56 @@
 
 ---
 
+## 2026-08-05 — M5: Evaluation harness
+
+**Goal:** Ship a `/evaluations` page + `rake ai:evaluate` CLI so we can measure the assistant's answer quality over time against a curated question set.
+
+**Files changed**
+- Migrations: `20260805000005_create_evaluations.rb`, `20260805000006_create_evaluation_runs.rb`
+- Models: `app/models/{evaluation,evaluation_run}.rb`
+- Controllers: `app/controllers/{evaluations,evaluation_runs}_controller.rb`
+- Views: `app/views/evaluations/{index.html.erb,_evaluation_row.html.erb}`
+- Job: `app/jobs/evaluation_run_job.rb`
+- Rake: `lib/tasks/ai.rake` (+ `ai:evaluate`, `ai:seed_evaluations`)
+- Styling: `app/assets/stylesheets/application.css`
+- Routes: `config/routes.rb`
+- Specs across models / controllers / job / rake
+
+**Summary**
+Six code commits + one docs commit:
+1. `feat(chatbot): add Evaluation + EvaluationRun models`
+2. `feat(chatbot): add EvaluationRunJob`
+3. `feat(chatbot): add EvaluationsController + /evaluate index view`
+4. `style(chatbot): add /evaluations page CSS` (fix-up for #3)
+5. `feat(chatbot): thumbs up/down feedback on evaluation runs`
+6. `feat(chatbot): rake ai:evaluate + rake ai:seed_evaluations`
+
+**Problems encountered**
+- Application.css write was rejected the first time — I'd read the file with a raw bash `cat` earlier, not through the harness's Read tool, so the harness didn't record it. Followed up with a proper Read + Write in a separate commit. The Write tool's "must have been read" rule is a good guardrail even if it caused a minor extra commit here.
+- Correctness scoring without human ratings on every run. Human-rated coverage will always lag ahead of runs.
+
+**Solutions**
+- `EvaluationRun#presumed_correct?` is the fallback correctness function used by the CLI summary and the "status" badge:
+  - `feedback == "down"` → false
+  - `feedback == "up"` → true
+  - Unlabelled + expected_sources overlap with citation_paths → true
+  - Unlabelled + no overlap → false
+  - No expected_sources listed → true (nothing to compare)
+- `rake ai:evaluate` writes a Markdown report to `tmp/eval-<timestamp>.md` alongside the stdout summary, so we can commit / diff / share reports over time.
+- `ai:seed_evaluations` is idempotent via `find_or_initialize_by(question:)`.
+
+**Technical decisions**
+- Feedback stored as a string (`"up"` / `"down"` / null) rather than an ActiveRecord enum — kept the migration simpler and the model doesn't need `feedback_up!` bang methods that we won't use.
+- Runs are synchronous (`perform_now`) from the /evaluations page so results appear inline without Sidekiq. `rake ai:evaluate` uses the same path.
+- Toggle semantics on feedback buttons — clicking an already-active value clears it, clicking the other value flips directly. Matches how most rating UIs work today.
+- Truncated the display answer at 400 chars in the row partial; full answer is in the details/report.
+
+**Next steps**
+- Await M5 approval.
+- Start M6: add the widget script include to product-page's `source/layouts/layout.erb` on the `chatbot` branch of product-page (which is already checked out).
+
+---
+
 ## 2026-08-05 — M4: Chat widget UI
 
 **Goal:** Ship a floating chat widget that streams answers from `/api/chat`, renders citations, and is accessible on desktop and mobile — as a single embeddable file.

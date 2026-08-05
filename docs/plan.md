@@ -131,8 +131,8 @@ See [architecture.md](./architecture.md) for the full picture.
 | M1 | Scaffold Rails 8 app at `./chatbot` | ✅ approved |
 | M2 | Ingestion pipeline (`rake ai:index_docs`) | ✅ approved |
 | M3 | Retrieval + Answering API | ✅ approved |
-| M4 | Chat widget UI | 🟡 awaiting approval |
-| M5 | Evaluation page | ⏳ |
+| M4 | Chat widget UI | ✅ approved |
+| M5 | Evaluation page | 🟡 awaiting approval |
 | M6 | Wire widget into product-page layout | ⏳ |
 
 ## Current progress
@@ -141,10 +141,11 @@ See [architecture.md](./architecture.md) for the full picture.
 - ✅ Architecture decisions locked in (six ADRs — see decisions.md)
 - ✅ M0 — Docs scaffolded
 - ✅ M1 — Rails 8 sidecar app at `./chatbot`
-- ✅ M2 — Ingestion pipeline (loaders, chunker, embedder, pipeline, jobs, `rake ai:index_docs`)
-- ✅ M3 — Retrieval + Answering API (Retriever, Ranker, PromptBuilder, AnswerService, /api/chat with JSON + SSE, rate limiting)
-- ✅ **M4 code landed — awaiting approval**: floating widget in `public/widget.js` with GOV.UK-styled shell, SSE streaming render, citation panel, copy/clear/suggested questions, focus trap, ARIA polish, responsive mobile layout. Dev-only `/widget_demo` page for manual testing.
+- ✅ M2 — Ingestion pipeline
+- ✅ M3 — Retrieval + Answering API
+- ✅ M4 — Chat widget UI
+- ✅ **M5 code landed — awaiting approval**: Evaluation + EvaluationRun models, /evaluations index page with add-form, per-row Run button, GOV.UK-styled status badges, thumbs up/down feedback with toggle, `rake ai:evaluate` (with tmp/eval-*.md report), `rake ai:seed_evaluations` (9-question starter set matching docs/evaluation.md).
 
 ## Next milestone
 
-**M5 — Evaluation page** — begins after M4 approval. See `tasks.md` for the per-commit breakdown.
+**M6 — Wire widget into product-page layout** — begins after M5 approval. See `tasks.md` for the per-commit breakdown.

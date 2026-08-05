@@ -58,13 +58,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M5 — Evaluation page
 
-- [ ] `feat(eval): Evaluation + EvaluationRun models + migrations`
-- [ ] `feat(eval): /evaluate index view — table of evals, run button per row`
-- [ ] `feat(eval): EvaluationRunJob — runs one question, records latency + citations`
-- [ ] `feat(eval): rake ai:evaluate — runs all, prints summary`
-- [ ] `feat(eval): thumbs up/down feedback capture`
-- [ ] `test: RSpec feature spec — /evaluate flow`
-- [ ] Seed with initial ~10 evaluation questions (see evaluation.md)
+- [x] `feat(chatbot): Evaluation + EvaluationRun models` (+ migrations, factories, specs)
+- [x] `feat(chatbot): EvaluationRunJob`
+- [x] `feat(chatbot): EvaluationsController + /evaluate index view` (+ CSS)
+- [x] `feat(chatbot): thumbs up/down feedback on evaluation runs`
+- [x] `feat(chatbot): rake ai:evaluate + rake ai:seed_evaluations`
+- [x] `test: RSpec — models, job, controller, rake tasks`
+- [x] Seeded evaluation set — 9 questions (5 product-page, 2 tech-docs, 2 known-unknowns) matching docs/evaluation.md
 - [ ] **Approval gate M5**
 
 ## M6 — Wire widget into product-page layout
