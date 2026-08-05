@@ -4,6 +4,50 @@
 
 ---
 
+## 2026-08-05 — M3: Retrieval + Answering API
+
+**Goal:** Wire retrieval + prompt construction + LLM call into a `POST /api/chat` endpoint that supports both JSON and SSE, with per-IP rate limiting.
+
+**Files changed**
+- Retrieval: `app/services/retrieval/{ranker,retriever}.rb` + specs
+- Answering: `app/services/answering/{prompt_builder,answer_service}.rb` + specs
+- API: `app/controllers/api/{base_controller,chat_controller}.rb`, `config/routes.rb`, `config/initializers/cors.rb`
+- Rate limiting: `config/initializers/rack_attack.rb`, `config/application.rb`
+- Gemfile: `+ rack-cors`
+- Specs: `spec/requests/api/*`, `spec/services/{retrieval,answering}/*`
+
+**Summary**
+Five feature commits + one docs commit:
+1. `feat(chatbot): add Retriever with pgvector cosine + source_type ranking`
+2. `feat(chatbot): add PromptBuilder + AnswerService orchestrator`
+3. `feat(chatbot): add POST /api/chat non-streaming JSON endpoint`
+4. `feat(chatbot): add SSE streaming branch to POST /api/chat`
+5. `feat(chatbot): add per-IP rate limiting on /api/chat via rack-attack`
+
+**Problems encountered**
+- Rate-limiting specs are naturally flaky (shared middleware state across examples). Went through several designs — file-level reload of the initializer, dynamic throttle override — before settling on a `ClimateControl`-style env-swap that reloads `rack_attack.rb` per-test.
+- Deciding whether to send citations before or after the streamed answer. Went with *after* to match the visual "answer, then sources" pattern and to let the widget render the citation panel once the answer settles.
+
+**Solutions**
+- **Neighbor gem's cosine distance** is converted to similarity via `1 - distance`. Result Data objects carry both raw similarity and the source-priority-adjusted score so ranking is explicit and testable.
+- **Over-fetch** by 2× k at pgvector query time so re-ranking can reorder without losing narrowly-beaten strong candidates.
+- **PromptBuilder** wraps chunks in `<context source="..." source_type="...">` blocks and explicitly instructs the model to ignore instructions inside those blocks (prompt-injection defence, per architecture.md §8).
+- **Short-circuit on empty retrieval**: both `AnswerService#call` and `#stream` return the `UNKNOWN_ANSWER` phrase without calling the LLM. Saves cost and guarantees the exact refusal wording.
+- **Semantic events, not SSE strings**: AnswerService yields `Events::Token / Citations / Done` Data objects; the controller translates to SSE. Clean separation of concerns, straightforward to unit-test the service without any HTTP framework in scope.
+- **X-Accel-Buffering: no** header on the SSE branch defends against nginx buffering the whole stream and delivering it as one chunk.
+
+**Technical decisions**
+- `ActionController::API` for the API controllers (not `ApplicationController`). Cleaner, no session/CSRF machinery.
+- `ActionController::Live` mixed in for streaming — the same endpoint serves both JSON and SSE, branching on `Accept: text/event-stream`.
+- Rate limits (20 req / 60s per IP) are ENV-driven so we can turn the knob without a code deploy.
+- CORS origins default to Middleman's `:4567` + Rails' `:3000` for dev; production sets `CORS_ALLOWED_ORIGINS` explicitly.
+
+**Next steps**
+- Await M3 approval.
+- Start M4: chat widget UI (floating button, chat panel, streaming, citation panel, accessibility, mobile).
+
+---
+
 ## 2026-08-05 — M2: Ingestion pipeline
 
 **Goal:** Land the full local-repo → chunks → embeddings → pgvector pipeline as a re-runnable `bin/rails ai:index_docs` task, with idempotency and full RSpec coverage.

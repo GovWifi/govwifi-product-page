@@ -37,14 +37,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M3 — Retrieval + Answering API
 
-- [ ] `feat(retrieval): Retriever with cosine similarity, k=8, threshold=0.2`
-- [ ] `feat(retrieval): Ranker with source_type weighting`
-- [ ] `feat(prompt): PromptBuilder with strict system prompt + context blocks`
-- [ ] `feat(answer): AnswerService orchestrator`
-- [ ] `feat(api): POST /api/chat non-streaming (JSON response)`
-- [ ] `feat(api): SSE streaming variant (token + citations + done events)`
-- [ ] `feat(api): rack-attack rate limiting`
-- [ ] `test: RSpec request specs — happy path, unknown-answer path, citation shape`
+- [x] `feat(chatbot): Retriever + Ranker with pgvector cosine + source_type weighting`
+- [x] `feat(chatbot): PromptBuilder + AnswerService orchestrator`
+- [x] `feat(chatbot): POST /api/chat non-streaming JSON endpoint` (+ CORS)
+- [x] `feat(chatbot): SSE streaming branch on the same endpoint`
+- [x] `feat(chatbot): per-IP rate limiting on /api/chat via rack-attack`
+- [x] `test: RSpec — retriever, ranker, prompt, answer service, request specs, streaming, rate limiting`
 - [ ] **Approval gate M3**
 
 ## M4 — Chat widget UI
