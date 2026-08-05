@@ -4,6 +4,39 @@
 
 ---
 
+## 2026-08-05 — M6: Wire widget into product-page layout
+
+**Goal:** Add the one line to `source/layouts/layout.erb` that pulls the assistant widget onto every product-page page, without changing anything else in the static site.
+
+**Files changed**
+- `source/layouts/layout.erb` — added a `<script src=...>` include for the widget
+- `README.md` (product-page) — added an "AI Support Assistant" section
+
+**Summary**
+Two commits + one docs commit:
+1. `feat: embed GovWifi AI Support Assistant widget`
+2. `docs: add AI Support Assistant section to product-page README`
+
+**Problems encountered**
+- Middleman evaluates ENV at build time, not per-request. Choosing when the widget is enabled and where it points to needs to be decided at `middleman build` time (via the GitHub Actions env or PaaS build vars), not at page-view time.
+- CSP: I checked and product-page's layout has no strict CSP meta tags today, so an external `<script src>` from `assistant.wifi.service.gov.uk` works out of the box. If a CSP is added later, a `script-src` allow-list will need to include the assistant origin.
+
+**Solutions**
+- Two build-time env vars: `CHATBOT_ENABLED` (master switch, off by default) and `CHATBOT_WIDGET_URL` (widget location, default `https://assistant.wifi.service.gov.uk/widget.js`). Off by default so the widget doesn't appear until we deliberately flip the flag on a staging/prod build.
+- `defer` attribute on the script tag so the widget download doesn't block the page's HTML parsing.
+
+**Technical decisions**
+- Placed the include next to the other `javascript_include_tag`s in `<head>`, grouped for readability, deferred for performance.
+- README section describes the local-dev flow: `docker compose up` in `chatbot/` alongside `CHATBOT_ENABLED=true CHATBOT_WIDGET_URL=http://localhost:3000/widget.js make serve`.
+
+**Next steps**
+- Await M6 approval.
+- Manual QA on desktop and mobile once you can run `docker compose up` locally.
+- Push the `chatbot` branch of product-page when ready to open a PR.
+- Post-MVP: Phase 2 (tech-docs, dev-docs), Phase 3 (Zendesk).
+
+---
+
 ## 2026-08-05 — M5: Evaluation harness
 
 **Goal:** Ship a `/evaluations` page + `rake ai:evaluate` CLI so we can measure the assistant's answer quality over time against a curated question set.

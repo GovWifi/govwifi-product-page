@@ -132,8 +132,8 @@ See [architecture.md](./architecture.md) for the full picture.
 | M2 | Ingestion pipeline (`rake ai:index_docs`) | ✅ approved |
 | M3 | Retrieval + Answering API | ✅ approved |
 | M4 | Chat widget UI | ✅ approved |
-| M5 | Evaluation page | 🟡 awaiting approval |
-| M6 | Wire widget into product-page layout | ⏳ |
+| M5 | Evaluation page | ✅ approved |
+| M6 | Wire widget into product-page layout | 🟡 awaiting approval |
 
 ## Current progress
 
@@ -144,8 +144,9 @@ See [architecture.md](./architecture.md) for the full picture.
 - ✅ M2 — Ingestion pipeline
 - ✅ M3 — Retrieval + Answering API
 - ✅ M4 — Chat widget UI
-- ✅ **M5 code landed — awaiting approval**: Evaluation + EvaluationRun models, /evaluations index page with add-form, per-row Run button, GOV.UK-styled status badges, thumbs up/down feedback with toggle, `rake ai:evaluate` (with tmp/eval-*.md report), `rake ai:seed_evaluations` (9-question starter set matching docs/evaluation.md).
+- ✅ M5 — Evaluation harness
+- ✅ **M6 code landed — awaiting approval**: single `<script>` include added to `source/layouts/layout.erb`, feature-flagged via `CHATBOT_ENABLED` / `CHATBOT_WIDGET_URL`. Product-page README updated with a "AI Support Assistant" section.
 
 ## Next milestone
 
-**M6 — Wire widget into product-page layout** — begins after M5 approval. See `tasks.md` for the per-commit breakdown.
+**Phase 1 MVP complete after M6 approval.** Post-MVP: Phase 2 (index tech-docs and dev-docs — zero architecture change), Phase 3 (Zendesk ingestion), and stretch features per plan.md.

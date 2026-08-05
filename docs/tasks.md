@@ -69,10 +69,10 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M6 — Wire widget into product-page layout
 
-- [ ] `feat: add widget script include to source/layouts/layout.erb`
-- [ ] Verify no CSP conflicts in product-page's existing setup
-- [ ] Update product-page README section on the assistant
-- [ ] Manual QA on desktop + mobile
+- [x] `feat: embed GovWifi AI Support Assistant widget` (feature-flagged via CHATBOT_ENABLED / CHATBOT_WIDGET_URL)
+- [x] Verified no CSP conflicts — product-page's layout has no strict CSP meta tags; script tag from any origin loads freely
+- [x] `docs: add AI Support Assistant section to product-page README`
+- [ ] Manual QA on desktop + mobile — deferred until you run `docker compose up` in `chatbot/`
 - [ ] **Approval gate M6**
 
 ## Phase 2 — additional sources (post-MVP)
