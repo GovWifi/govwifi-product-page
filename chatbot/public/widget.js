@@ -14,6 +14,13 @@
   "use strict";
 
   // ---------------------------------------------------------------- Config
+  const SUGGESTED_QUESTIONS = [
+    "How do I sign up?",
+    "How do I onboard my organisation?",
+    "How does GovWifi authentication work?",
+    "How do certificates work?"
+  ];
+
   function apiUrl() {
     const scripts = document.querySelectorAll("script[src*='widget.js']");
     if (scripts.length === 0) return "/api/chat";
@@ -48,8 +55,8 @@
 
     .gwa-panel {
       position: fixed; bottom: 90px; right: 20px;
-      width: 380px; max-width: calc(100vw - 40px);
-      height: 560px; max-height: calc(100vh - 120px);
+      width: 400px; max-width: calc(100vw - 40px);
+      height: 600px; max-height: calc(100vh - 120px);
       background: #ffffff; border: 2px solid #0b0c0c;
       display: flex; flex-direction: column;
       box-shadow: 0 6px 24px rgba(0,0,0,0.25);
@@ -60,8 +67,15 @@
       background: #0b0c0c; color: #ffffff;
       padding: 12px 16px;
       display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
     }
-    .gwa-title  { margin: 0; font-size: 18px; font-weight: 700; }
+    .gwa-title  { margin: 0; font-size: 18px; font-weight: 700; flex: 1 1 auto; }
+    .gwa-header-actions { display: flex; gap: 4px; }
+    .gwa-header-btn {
+      background: transparent; color: #ffffff; border: 1px solid #ffffff;
+      padding: 4px 8px; font-size: 14px; cursor: pointer; font-family: inherit;
+    }
+    .gwa-header-btn:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
     .gwa-close  {
       background: transparent; color: #ffffff; border: 0;
       font-size: 24px; line-height: 1; cursor: pointer; padding: 4px 8px;
@@ -96,6 +110,45 @@
       color: #d4351c; padding: 12px; background: #fef7f7;
       border: 1px solid #d4351c; margin-bottom: 12px;
     }
+
+    .gwa-sources {
+      margin-top: 12px; padding-top: 8px;
+      border-top: 1px solid #b1b4b6;
+      font-size: 14px;
+    }
+    .gwa-sources-label {
+      font-weight: 700; margin: 0 0 4px 0; color: #505a5f;
+    }
+    .gwa-sources ul { margin: 0; padding-left: 20px; }
+    .gwa-sources a { color: #1d70b8; text-decoration: underline; }
+    .gwa-sources a:hover { color: #003078; }
+    .gwa-sources a:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
+
+    .gwa-actions {
+      margin-top: 8px; text-align: right;
+    }
+    .gwa-copy {
+      background: transparent; color: #1d70b8; border: 1px solid #1d70b8;
+      padding: 2px 8px; font-size: 12px; cursor: pointer; font-family: inherit;
+    }
+    .gwa-copy:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
+    .gwa-copy.gwa-copied { background: #1d70b8; color: #ffffff; }
+
+    .gwa-suggestions {
+      padding: 8px 0;
+    }
+    .gwa-suggestions p {
+      margin: 0 0 8px 0; color: #505a5f; font-weight: 700;
+    }
+    .gwa-chip {
+      display: block; width: 100%; text-align: left;
+      background: #ffffff; color: #0b0c0c;
+      border: 2px solid #1d70b8;
+      padding: 8px 12px; margin-bottom: 6px;
+      font-family: inherit; font-size: 14px; cursor: pointer;
+    }
+    .gwa-chip:hover { background: #f3f2f1; }
+    .gwa-chip:focus { outline: 3px solid #ffdd00; outline-offset: 0; }
 
     .gwa-input-row {
       border-top: 1px solid #b1b4b6; padding: 12px;
@@ -144,7 +197,10 @@
       >
         <div class="gwa-header">
           <h2 class="gwa-title" id="gwa-title">GovWifi Support Assistant</h2>
-          <button class="gwa-close" type="button" aria-label="Close">&times;</button>
+          <div class="gwa-header-actions">
+            <button class="gwa-header-btn gwa-clear" type="button">Clear</button>
+            <button class="gwa-close" type="button" aria-label="Close">&times;</button>
+          </div>
         </div>
         <div class="gwa-messages" role="log" aria-live="polite" aria-atomic="false"></div>
         <form class="gwa-input-row" novalidate>
@@ -238,6 +294,7 @@
     const launcher = root.querySelector(".gwa-launcher");
     const panel    = root.querySelector(".gwa-panel");
     const closeBtn = root.querySelector(".gwa-close");
+    const clearBtn = root.querySelector(".gwa-clear");
     const form     = root.querySelector(".gwa-input-row");
     const input    = root.querySelector(".gwa-input");
     const sendBtn  = root.querySelector(".gwa-send");
@@ -248,16 +305,47 @@
     function open()  { panel.hidden = false; launcher.setAttribute("aria-expanded", "true"); input.focus(); }
     function close() { panel.hidden = true;  launcher.setAttribute("aria-expanded", "false"); launcher.focus(); }
 
+    function clear() {
+      state.history = [];
+      messages.innerHTML = "";
+      renderSuggestions();
+      input.focus();
+    }
+
+    function renderSuggestions() {
+      if (state.history.length > 0) return;
+      const wrap = document.createElement("div");
+      wrap.className = "gwa-suggestions";
+      wrap.innerHTML = `<p>Try asking:</p>`;
+      SUGGESTED_QUESTIONS.forEach((q) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "gwa-chip";
+        btn.textContent = q;
+        btn.addEventListener("click", () => askQuestion(q));
+        wrap.appendChild(btn);
+      });
+      messages.appendChild(wrap);
+    }
+
     launcher.addEventListener("click", open);
     closeBtn.addEventListener("click", close);
+    clearBtn.addEventListener("click", clear);
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const question = input.value.trim();
-      if (!question || state.busy) return;
+      if (!question) return;
+      askQuestion(question);
+    });
 
+    function askQuestion(question) {
+      if (state.busy) return;
       state.busy = true;
       sendBtn.disabled = true;
+
+      const suggestions = messages.querySelector(".gwa-suggestions");
+      if (suggestions) suggestions.remove();
 
       appendUser(messages, question);
       const bubble = appendAssistantBubble(messages);
@@ -272,6 +360,7 @@
       state.history.push({ role: "user", content: question });
       let answer = "";
       let firstToken = true;
+      let sources = [];
 
       askStream(question, state.history.slice(0, -1), {
         onToken: (delta) => {
@@ -280,14 +369,13 @@
           bubble.textContent = answer;
           scrollBottom(messages);
         },
-        onCitations: (_citations) => {
-          // Citations rendered in the next commit.
-        },
-        onDone: (_meta) => {
+        onCitations: (citations) => { sources = citations; },
+        onDone: () => {
+          renderAnswerExtras(bubble, answer, sources);
           state.history.push({ role: "assistant", content: answer });
         },
         onError: (msg) => {
-          bubble.remove();
+          bubble.parentElement.remove();
           appendError(messages, msg);
         },
         onEnd: () => {
@@ -301,9 +389,10 @@
         state.busy = false;
         sendBtn.disabled = false;
       });
-    });
+    }
 
-    window.govwifiAssistant = { open: open, close: close };
+    renderSuggestions();
+    window.govwifiAssistant = { open: open, close: close, clear: clear };
   }
 
   // ---------------------------------------------------------------- Helpers
@@ -327,6 +416,71 @@
     return bubble;
   }
 
+  function renderAnswerExtras(bubble, answer, citations) {
+    if (citations && citations.length > 0) {
+      const sources = document.createElement("div");
+      sources.className = "gwa-sources";
+      const label = document.createElement("p");
+      label.className = "gwa-sources-label";
+      label.textContent = "Sources";
+      const list = document.createElement("ul");
+      dedupeCitations(citations).forEach((c) => {
+        const li = document.createElement("li");
+        if (c.url) {
+          const a = document.createElement("a");
+          a.href = c.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = citationLabel(c);
+          li.appendChild(a);
+        } else {
+          li.textContent = citationLabel(c);
+        }
+        list.appendChild(li);
+      });
+      sources.appendChild(label);
+      sources.appendChild(list);
+      bubble.appendChild(sources);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "gwa-actions";
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "gwa-copy";
+    copyBtn.textContent = "Copy answer";
+    copyBtn.addEventListener("click", () => copyToClipboard(answer, copyBtn));
+    actions.appendChild(copyBtn);
+    bubble.appendChild(actions);
+  }
+
+  function dedupeCitations(citations) {
+    const seen = new Set();
+    return citations.filter((c) => {
+      const key = (c.source_type || "") + "::" + (c.path || c.url || "");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function citationLabel(c) {
+    if (c.source_type && c.path) return c.source_type + "/" + c.path.replace(/^source\//, "");
+    return c.title || c.path || c.url || "source";
+  }
+
+  function copyToClipboard(text, btn) {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = "Copied";
+      btn.classList.add("gwa-copied");
+      setTimeout(() => {
+        btn.textContent = "Copy answer";
+        btn.classList.remove("gwa-copied");
+      }, 1500);
+    }).catch(() => { /* silently ignore permission failures */ });
+  }
+
   function appendError(container, text) {
     const box = document.createElement("div");
     box.className = "gwa-error";
@@ -335,9 +489,7 @@
     scrollBottom(container);
   }
 
-  function scrollBottom(el) {
-    el.scrollTop = el.scrollHeight;
-  }
+  function scrollBottom(el) { el.scrollTop = el.scrollHeight; }
 
   function injectStyles() {
     const style = document.createElement("style");
