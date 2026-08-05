@@ -128,7 +128,7 @@ See [architecture.md](./architecture.md) for the full picture.
 
 | ID | Name | Approval gate |
 |---|---|---|
-| M1 | Scaffold Rails 8 app at `./chatbot` | ⏳ |
+| M1 | Scaffold Rails 8 app at `./chatbot` | 🟡 awaiting approval |
 | M2 | Ingestion pipeline (`rake ai:index_docs`) | ⏳ |
 | M3 | Retrieval + Answering API | ⏳ |
 | M4 | Chat widget UI | ⏳ |
@@ -139,9 +139,9 @@ See [architecture.md](./architecture.md) for the full picture.
 
 - ✅ Repository audit complete
 - ✅ Architecture decisions locked in (see decisions.md)
-- ✅ Docs scaffolded
-- ⏳ M1 not yet started
+- ✅ Docs scaffolded (M0)
+- ✅ **M1 code landed — awaiting approval**: Rails 8 app scaffold with pgvector, LLM SDKs, Sidekiq, RSpec, docker-compose
 
 ## Next milestone
 
-**M1 — Scaffold Rails 8 app at `./chatbot`.** See `tasks.md` for the per-commit breakdown.
+**M2 — Ingestion pipeline (`rake ai:index_docs`)** — begins after M1 approval. See `tasks.md` for the per-commit breakdown.

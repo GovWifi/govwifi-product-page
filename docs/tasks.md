@@ -16,11 +16,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done
 
 ## M1 — Scaffold companion Rails 8 app (`./chatbot`)
 
-- [ ] `chore: add chatbot/ Rails 8 app scaffold` (Postgres, Puma, Rspec, Rubocop-govuk)
-- [ ] `chore: add pgvector extension + neighbor gem + placeholder migration`
-- [ ] `chore: add anthropic + openai gems, credentials scaffold`
-- [ ] `chore: docker-compose service definitions (postgres, redis, rails, sidekiq)`
-- [ ] `docs: chatbot/README with local dev instructions` (in-app, links back to /docs)
+- [x] `chore(chatbot): add Rails 8 app scaffold` (Postgres, Puma, Propshaft, Turbo, Stimulus)
+- [x] `chore(chatbot): add pgvector + neighbor gem for vector storage`
+- [x] `chore(chatbot): add LLM client, background job, and testing gems`
+- [x] `chore(chatbot): add docker-compose for local dev`
+- [x] `docs(chatbot): replace default Rails README with local dev guide`
 - [ ] **Approval gate M1**
 
 ## M2 — Ingestion pipeline

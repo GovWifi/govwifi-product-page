@@ -4,6 +4,46 @@
 
 ---
 
+## 2026-08-05 — M1: Rails 8 sidecar scaffold
+
+**Goal:** Land the empty-but-runnable Rails 8 app at `./chatbot`, wired for Postgres + pgvector, Sidekiq, and the LLM SDKs, orchestrated by docker-compose.
+
+**Files changed**
+- Added `chatbot/` (full Rails 8.1 scaffold, ~71 files)
+- Added `chatbot/db/migrate/20260805000001_enable_pgvector.rb`
+- Added `chatbot/.env.example`, `chatbot/Dockerfile.dev`, `chatbot/docker-compose.yml`
+- Added `chatbot/config/initializers/sidekiq.rb`
+- Modified `chatbot/config/database.yml` (env-driven config)
+- Modified `chatbot/Gemfile` (neighbor, anthropic, ruby-openai, sidekiq, redis, faraday, nokogiri, commonmarker, pdf-reader, rack-attack, dotenv-rails, rspec-rails, factory_bot, faker, webmock, vcr)
+- Replaced `chatbot/README.md` with a local dev guide
+
+**Summary**
+Five commits landed on the `chatbot` branch:
+1. `chore(chatbot): add Rails 8 app scaffold`
+2. `chore(chatbot): add pgvector + neighbor gem for vector storage`
+3. `chore(chatbot): add LLM client, background job, and testing gems`
+4. `chore(chatbot): add docker-compose for local dev`
+5. `docs(chatbot): replace default Rails README with local dev guide`
+
+**Problems encountered**
+- No Ruby installed locally on the workstation. First attempt to `rails new` via podman failed on `--css=none` (invalid enum value in Rails 8.1).
+- `rails new` skipped `.gitignore` due to `--skip-git`; the parent product-page `.gitignore` doesn't cover Rails needs.
+
+**Solutions**
+- Retried `rails new` without the invalid `--css=none`; the default (empty CSS) is what we want anyway. GOV.UK Design System comes in with the widget in M4.
+- Added a Rails-appropriate `chatbot/.gitignore` including `/config/master.key` to keep the master key out of git.
+
+**Technical decisions**
+- Used `pgvector/pgvector:pg16` image in docker-compose — ships with the extension pre-installed. Cleaner than a plain postgres image + custom init.
+- Kept the production Dockerfile that `rails new` produced (thruster-based) and added a separate `Dockerfile.dev` for the docker-compose flow. Two files, clear intent, no branching in a single Dockerfile.
+- Rubocop kept as rails-omakase for now. `rubocop-govuk` was considered but omakase is fine at this stage; can swap in later without an ADR-worthy change.
+
+**Next steps**
+- Await M1 approval.
+- On approval, start M2: `Document` + `Chunk` ActiveRecord models with pgvector, then loaders + chunker + embedder + rake task.
+
+---
+
 ## 2026-08-05 — Repository audit, architecture, docs scaffolding
 
 **Goal:** Understand the three GovWifi repos, decide on an integration approach for the AI Support Assistant, and lay down living documentation before any code.
