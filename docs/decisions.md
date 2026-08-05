@@ -126,6 +126,40 @@ The bundle self-mounts into a container it creates, initialised after `DOMConten
 
 ---
 
+## ADR-006 — Chat provider and embedding provider are separate concerns
+
+**Date:** 2026-08-05
+**Status:** Accepted
+**Refines:** ADR-002
+
+### Context
+
+ADR-002 chose Claude (Anthropic) as the default LLM. But Anthropic does not ship a first-party embedding endpoint — they partner with Voyage AI for that. Meanwhile OpenAI ships both chat and embedding models. If chat provider = embedding provider, then choosing Claude forces us into Voyage (a third API), and switching chat provider later forces a full re-embed because vector dimensions differ (voyage-3 = 1024, text-embedding-3-small = 1536).
+
+### Decision
+
+Split the two concerns in `Services::Llm::Client`:
+
+- **Chat** provider: configurable, defaults to Anthropic (`claude-sonnet-4-6`).
+- **Embedding** provider: configurable, defaults to OpenAI (`text-embedding-3-small`, 1536 dims).
+
+`Chunk.embedding` is stored as `vector(1536)`. This is the operational contract — changing embed provider is a data migration, not a config toggle.
+
+### Alternatives considered
+
+1. **Coupled provider (chat + embed both from OpenAI, or both via Voyage).** Rejected — locks chat and embed together, forces re-embed on every LLM swap.
+2. **Voyage for embeddings, keep Anthropic default for chat.** Rejected for MVP — third API, third key, unfamiliar to most reviewers, and no measurable retrieval quality win at our scale.
+3. **Store multiple embedding columns for A/B.** Rejected — cost 2× the vector storage. Revisit if we ever need to evaluate embedding-model changes online.
+
+### Consequences
+
+- **Positive:** Chat provider swaps are a config change; embedding is stable.
+- **Positive:** OpenAI embedding pricing is the cheapest first-party option at this scale.
+- **Negative:** Two API keys required in typical deployment (`ANTHROPIC_API_KEY` + `OPENAI_API_KEY`). Documented in `.env.example`.
+- **Negative:** If we later want to move off OpenAI entirely (e.g., data-residency), we'll re-embed. Bounded, batched, resumable — designed for.
+
+---
+
 ## ADR-005 — Docs live inside product-page repo, not a separate wiki
 
 **Date:** 2026-08-05
