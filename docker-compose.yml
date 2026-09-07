@@ -9,3 +9,12 @@ services:
     ports:
       - "4567:4567"
       - "35729:35729"
+    environment:
+      # Widget include in source/layouts/layout.erb is gated on
+      # ENV.fetch("CHATBOT_ENABLED", "false") == "true". These lines
+      # forward the corresponding host env vars into the Middleman
+      # container so `CHATBOT_ENABLED=true make serve` works as
+      # documented in govwifi-ai-service's Quickstart Terminal 3.
+      # Defaults keep behaviour unchanged when the vars aren't set.
+      CHATBOT_ENABLED: ${CHATBOT_ENABLED:-false}
+      CHATBOT_WIDGET_URL: ${CHATBOT_WIDGET_URL:-}
