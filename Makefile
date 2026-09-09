@@ -12,4 +12,9 @@ stop:
 	docker compose kill
 	docker compose rm -f
 
+local-node-update:
+	rm -rf node_modules
+	rm package-lock.json
+	npm install
+
 .PHONY: build deploy serve stop
