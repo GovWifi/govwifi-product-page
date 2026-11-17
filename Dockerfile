@@ -1,4 +1,4 @@
-FROM ruby:4.0.7-alpine
+FROM ruby:4.0.9-alpine
 
 WORKDIR /usr/src/app
 
