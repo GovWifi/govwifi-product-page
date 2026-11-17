@@ -51,6 +51,7 @@ GEM
     execjs (2.10.0)
     fast_blank (1.0.1)
     fastimage (2.4.0)
+    ffi (1.17.3)
     ffi (1.17.3-aarch64-linux-gnu)
     ffi (1.17.3-aarch64-linux-musl)
     ffi (1.17.3-arm-linux-gnu)
@@ -142,12 +143,16 @@ GEM
       middleman-core (>= 3.3)
       rack-livereload (~> 0.6.1)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
     mutex_m (0.3.0)
     nenv (0.3.0)
     nio4r (2.7.5)
+    nokogiri (1.19.5)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.5-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.5-aarch64-linux-musl)
@@ -174,6 +179,7 @@ GEM
     padrino-support (0.16.0)
     parallel (1.27.0)
     parslet (2.0.0)
+    prism (2.1.0)
     prism (2.1.0-aarch64-linux-gnu)
     prism (2.1.0-aarch64-linux-musl)
     prism (2.1.0-arm-linux-gnu)
@@ -190,7 +196,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.2)
+    puma (8.0.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.23)
@@ -309,6 +315,7 @@ CHECKSUMS
   execjs (2.10.0) sha256=6bcb8be8f0052ff9d370b65d1c080f2406656e150452a0abdb185a133048450d
   fast_blank (1.0.1) sha256=269fc30414fed4e6403bc4a49081e1ea539f8b9226e59276ed1efaefabaa17ea
   fastimage (2.4.0) sha256=5fce375e27d3bdbb46c18dbca6ba9af29d3304801ae1eb995771c4796c5ac7e8
+  ffi (1.17.3) sha256=0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c
   ffi (1.17.3-aarch64-linux-gnu) sha256=28ad573df26560f0aedd8a90c3371279a0b2bd0b4e834b16a2baa10bd7a97068
   ffi (1.17.3-aarch64-linux-musl) sha256=020b33b76775b1abacc3b7d86b287cef3251f66d747092deec592c7f5df764b2
   ffi (1.17.3-arm-linux-gnu) sha256=5bd4cea83b68b5ec0037f99c57d5ce2dd5aa438f35decc5ef68a7d085c785668
@@ -341,10 +348,12 @@ CHECKSUMS
   middleman-core (4.6.3) sha256=5cab1e1f16b00d26f541a4ca787427e1e0203c34f2d81471c1fae3bf1e7509a8
   middleman-livereload (3.5.0) sha256=8244d596851cac983719346bd13828b95cc049db9df8911e4d00f22b6fd6a762
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
+  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.1.0) sha256=ff373595aa8888631e8a5463986a76b3845346ae6d7fa46e139c1633d418076e
   mutex_m (0.3.0) sha256=cfcb04ac16b69c4813777022fdceda24e9f798e48092a2b817eb4c0a782b0751
   nenv (0.3.0) sha256=d9de6d8fb7072228463bf61843159419c969edb34b3cef51832b516ae7972765
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
+  nokogiri (1.19.5) sha256=d7ff830dfbe32fa03191412d8ef9dbf0d2db77bc4587e683dc38ec55813c8e03
   nokogiri (1.19.5-aarch64-linux-gnu) sha256=c3d2685cc9788549cdfb23edc4684cfcc2dd390ddebf7a0170ba891445f8d3bd
   nokogiri (1.19.5-aarch64-linux-musl) sha256=2aab3d04c430c9b9f6c46f7eddc1e341d1eb78f9070604505452092c237e7eee
   nokogiri (1.19.5-arm-linux-gnu) sha256=a106d91b32a20142934b21e717060b8dbd10629fa0a41f15d153e89f58abf27f
@@ -358,6 +367,7 @@ CHECKSUMS
   padrino-support (0.16.0) sha256=78bce996d96aad7c2064c5c452cc8d5ba67b41d6ee570882febc58b0ea81d2dc
   parallel (1.27.0) sha256=4ac151e1806b755fb4e2dc2332cbf0e54f2e24ba821ff2d3dcf86bf6dc4ae130
   parslet (2.0.0) sha256=d45130695d39b43d7e6a91f4d2ec66b388a8d822bae38de9b4de9a5fbde1f606
+  prism (2.1.0) sha256=1c0a7c6dea0e93183390fb123f007564dbe663198e2f86ad87204151147601f3
   prism (2.1.0-aarch64-linux-gnu) sha256=808dddc72def68e1a0463689414c97e0ba211938eddbab05387a4844aa2b3ec2
   prism (2.1.0-aarch64-linux-musl) sha256=dd1a0732620c1e575dabb07a297a62911fabd72f8e20ce850b522a866f877930
   prism (2.1.0-arm-linux-gnu) sha256=96b2426b9dbab05448c4add735619929042be3cd7e871ff186468121b62bcfa8
@@ -369,7 +379,7 @@ CHECKSUMS
   pry (0.16.0) sha256=d76c69065698ed1f85e717bd33d7942c38a50868f6b0673c636192b3d1b6054e
   psych (5.3.1) sha256=eb7a57cef10c9d70173ff74e739d843ac3b2c019a003de48447b2963d81b1974
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
-  puma (8.0.2) sha256=c8ed871dfbbe66448ea9ffd46692342d9804d4071522b52b5331b7b6e7b686fb
+  puma (8.0.3) sha256=6383a60bbc3d9495b2e453d93e60cefa817f7e854a302a5013f31fd9f514a5f3
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.1.23) sha256=f4aa63ad9e7afe7c8aeb0916419d09afcc2c9436e133fda7b9c9749a98b67560
   rack-livereload (0.6.1) sha256=34337d2bdbea44327b9f7bd99f2595b04f90d8b2cf5305648c0e4860f3a30539
