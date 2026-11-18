@@ -192,7 +192,7 @@ GEM
       method_source (~> 1.0)
       reline (>= 0.6.0)
     public_suffix (7.0.5)
-    puma (8.0.3)
+    puma (8.1.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.23)
@@ -376,7 +376,7 @@ CHECKSUMS
   prism (2.1.0-x86_64-linux-musl) sha256=249f45981726923e259b927902246219fa25ad10a76f43849c9aee1a3d3ec5b8
   pry (0.16.0) sha256=d76c69065698ed1f85e717bd33d7942c38a50868f6b0673c636192b3d1b6054e
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
-  puma (8.0.3) sha256=6383a60bbc3d9495b2e453d93e60cefa817f7e854a302a5013f31fd9f514a5f3
+  puma (8.1.0) sha256=86337ed8a60eb3f246c287b7ffd7cbb81dee5a2408b745e2c33e77760b7c2ac7
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.1.23) sha256=f4aa63ad9e7afe7c8aeb0916419d09afcc2c9436e133fda7b9c9749a98b67560
   rack-livereload (0.6.1) sha256=34337d2bdbea44327b9f7bd99f2595b04f90d8b2cf5305648c0e4860f3a30539
